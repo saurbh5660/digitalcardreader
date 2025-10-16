@@ -1,0 +1,60 @@
+name: digital_card_grader
+description: "A new Flutter project."
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.9.0 <4.0.0"
+  flutter: ">=3.35.4"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  get: ^4.7.2
+  font_awesome_flutter: ^10.10.0
+  image_picker: ^1.2.0
+  flutter_html: ^3.0.0
+  carousel_slider_plus: ^7.1.1
+  google_fonts: ^6.3.1
+  device_preview: ^1.3.1
+  dio: ^5.2.0
+  mime_type: ^1.0.1
+  http_parser: ^4.1.2
+  get_storage: ^2.1.1
+  loader_overlay: ^5.0.0
+  intl: ^0.20.2
+  logger: ^2.5.0
+  flutter_document_scanner: ^1.1.2
+  image_cropper: ^10.0.0+1
+  flutter_doc_scanner: ^0.0.16
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  # To add assets to your application
+  assets:
+    - assets/images/
+    - assets/icons/
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/to/asset-from-package
+
+  # To add custom fonts to your application
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
