@@ -1,11 +1,9 @@
 import 'package:digital_card_grader/core/constants/app_routes.dart';
 import 'package:digital_card_grader/core/models/payment_card_model.dart';
-import 'package:digital_card_grader/core/utils/camera_utils.dart';
 import 'package:digital_card_grader/core/utils/card_scanner_util.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-
 import '../../../../network/api_provider.dart';
 import '../../../common/apputills.dart';
 import '../../../models/card_response.dart';

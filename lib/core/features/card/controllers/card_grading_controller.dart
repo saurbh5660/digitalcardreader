@@ -18,9 +18,9 @@ class CardGradingController extends GetxController {
   }
 
   Future<void> startGardGrading() async {
-    final paymentController = Get.find<PaymentController>();
-    log("image is ${paymentController.image.value}");
-    card.value = paymentController.card;
+    final addCardDetailController = Get.find<AddCardDetailController>();
+    log("image is ${addCardDetailController.image.value}");
+    card.value = addCardDetailController.card;
   }
 
   Future<void> onContinue() async {

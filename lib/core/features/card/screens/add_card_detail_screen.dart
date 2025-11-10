@@ -118,7 +118,8 @@ class AddCardDetailScreen extends GetView<AddCardDetailController> {
                       ),
                       CommonButton(
                         title: AppStrings.startAiScan,
-                        onPressed: controller.onAiScan,
+                        // onPressed: controller.onAiScan,
+                        onPressed: controller.scanCard,
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.04,

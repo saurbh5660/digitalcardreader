@@ -51,6 +51,7 @@ class VerficationController extends GetxController {
       var response = await ApiProvider().otpVerify(userData);
       Logger().d(response);
       if (response.success == true) {
+        DbHelper().saveIsLoggedIn(true);
         Get.offAllNamed(AppRoutes.dashboard);
       } else {
         Utils.showToast(message: response.message);

@@ -1,8 +1,8 @@
 class ApiConstants {
 
-  static const String _baseUrl = "http://43.205.151.177:3005";
-  static const String socketUrl = "http://43.205.151.177:3005";
-  static const String userImageUrl = "http://43.205.151.177:3005";
+  static const String _baseUrl = "http://43.204.254.177:3005";
+  static const String socketUrl = "http://43.204.254.177:3005";
+  static const String userImageUrl = "http://43.204.254.177:3005";
 
   static const String login = "$_baseUrl/users/login";
   static const String signup = "$_baseUrl/users/signUp";
@@ -10,5 +10,6 @@ class ApiConstants {
   static const String resendOtp = "$_baseUrl/users/resendOtp";
   static const String forgotPassword = "$_baseUrl/users/forgotPassword";
   static const String uploadAndGrade = "$_baseUrl/users/uploadAndGrade";
+  static const String addCollection = "$_baseUrl/users/addCollection";
 
 }

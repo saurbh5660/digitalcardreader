@@ -248,6 +248,8 @@ class ProfileScreen extends GetView<ProfileController> {
           switch (controller.selectedIndex.value) {
             case 0:
               Get.toNamed(AppRoutes.addCollection);
+            case 1:
+              Get.toNamed(AppRoutes.addCardDetail);
             case 2:
               Get.toNamed(AppRoutes.listCard);
           }

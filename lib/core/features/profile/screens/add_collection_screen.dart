@@ -41,7 +41,7 @@ class AddCollectionScreen extends GetView<AddCollectionController> {
                         ),
                       ),
                       SizedBox(height: 20),
-                      CommonDropdrown(
+                     /* CommonDropdrown(
                         showTitle: true,
                         hint: AppStrings.collectionType,
                         style: TextStyle(
@@ -70,7 +70,7 @@ class AddCollectionScreen extends GetView<AddCollectionController> {
                         //   }
                         // },
                       ),
-
+*/
                       CommonTextfield(
                         AppStrings.collectionName,
                         controller: controller.collectionName,
@@ -104,24 +104,9 @@ class AddCollectionScreen extends GetView<AddCollectionController> {
                       ),
                       SizedBox(height: 20),
                       CommonButton(
-                        title: "Submit to Marketplace",
-                        onPressed: () async {
-                          Get.toNamed(
-                            AppRoutes.success,
-                            arguments: {
-                              "title":
-                                  "Your Collection Addition was successful",
-                              "onPressed": () {
-                                Get.until(
-                                  (route) =>
-                                      Get.currentRoute == AppRoutes.dashboard,
-                                );
-                                Get.find<DashboardController>().onChangeIndex(
-                                  0,
-                                );
-                              },
-                            },
-                          );
+                        title: "Submit",
+                        onPressed: () async{
+                          controller.addCollection();
                         },
                       ),
                     ],

@@ -72,7 +72,6 @@ class SignupController extends GetxController {
     Logger().d(response);
     if (response.success == true) {
       // Utils.showToast(message: "Your static otp is 1111.");
-      DbHelper().saveIsLoggedIn(true);
       DbHelper().saveUserModel(response.body);
       DbHelper().saveUserToken(response.body?.token ?? "");
       Get.toNamed(

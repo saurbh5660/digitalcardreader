@@ -12,7 +12,7 @@ class DbHelper {
   static const String _userType = "userType";
   static const String _userId = "userId";
   static const String _userToken = "userToken";
-  static const String _isLoggedIn = "isLoggedIn";
+  static const String _isLoggedIn = "isLogged";
   static const String _isSocial = "isSocial";
   static const String _loginTime = "loginTime";
   static const String _connectTime = "connectTime";

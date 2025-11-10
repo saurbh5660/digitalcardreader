@@ -153,6 +153,33 @@ class ApiProvider {
     }
   }
 
+  Future<CardResponse> addCollection(
+      Map<String, dynamic> body,
+      String imagePath,
+      ) async {
+    Utils.showLoading();
+    if (imagePath.isNotEmpty) {
+      body['imagePath'] = await getMultipartImage(path: imagePath);
+    }
+    ApiRequest apiRequest = ApiRequest(
+      url: ApiConstants.addCollection,
+      requestType: RequestType.post,
+      body: body,
+    );
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      Utils.hideLoading();
+      return CardResponse.fromJson(response);
+    } catch (e) {
+      Utils.hideLoading();
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return CardResponse.fromJson(res?.data);
+      }
+      return CardResponse(message: e.toString());
+    }
+  }
+
   static Future<dio.MultipartFile> getMultipartImage({
     required String path,
   }) async {
