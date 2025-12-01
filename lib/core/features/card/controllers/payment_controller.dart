@@ -25,9 +25,9 @@ class PaymentController extends GetxController {
   Future<void> scanCard() async {
     final file = await CardScannerUtils.scanFromCamera();
     image.value = file?.path;
-    if (file?.path != null) {
+   /* if (file?.path != null) {
       uploadGrade();
-    }
+    }*/
   }
 
   Future<void> addCard() async {
@@ -49,7 +49,7 @@ class PaymentController extends GetxController {
     }
   }
 
-  Future<void> uploadGrade() async {
+ /* Future<void> uploadGrade() async {
     Map<String, dynamic> cardData = {};
     var response = await ApiProvider().uploadGrade(cardData, image.value ?? "");
     Logger().d(response);
@@ -60,7 +60,7 @@ class PaymentController extends GetxController {
     } else {
       Utils.showErrorToast(message: response.message);
     }
-  }
+  }*/
 
   void clearDetails() {
     cardNameController.clear();

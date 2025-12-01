@@ -8,6 +8,7 @@ import 'package:digital_card_grader/core/features/home/controllers/home_controll
 import 'package:digital_card_grader/core/features/onboarding/controllers/onboarding_controller.dart';
 import 'package:digital_card_grader/core/features/profile/controllers/edit_profile_controller.dart';
 import 'package:digital_card_grader/core/features/profile/controllers/view_profile_controller.dart';
+import 'package:digital_card_grader/core/features/setting/controllers/pack_controller.dart';
 import 'package:get/get.dart';
 
 import '../features/auth/controllers/change_password_controller.dart';
@@ -191,5 +192,13 @@ class ContactBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => ContactController());
+  }
+}
+
+
+class PackBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => PacksController());
   }
 }

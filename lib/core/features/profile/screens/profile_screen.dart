@@ -4,6 +4,8 @@ import 'package:digital_card_grader/core/constants/app_images.dart';
 import 'package:digital_card_grader/core/constants/app_routes.dart';
 import 'package:digital_card_grader/core/features/profile/controllers/profile_controller.dart';
 import 'package:digital_card_grader/core/features/profile/widgets/card_listing_widget.dart';
+import 'package:digital_card_grader/generated/assets.dart';
+import 'package:digital_card_grader/network/api_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -147,14 +149,17 @@ class ProfileScreen extends GetView<ProfileController> {
                           Expanded(
                             child: Column(
                               children: [
-                                Text(
-                                  "10",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        GoogleFonts.openSans().fontFamily,
-                                  ),
+                                Obx(() {
+                                    return Text(
+                                      (controller.collectionList.isEmpty ? '0' : controller.collectionList.length.toString()),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily:
+                                            GoogleFonts.openSans().fontFamily,
+                                      ),
+                                    );
+                                  }
                                 ),
                                 SizedBox(height: 5),
                                 Text(
@@ -171,14 +176,17 @@ class ProfileScreen extends GetView<ProfileController> {
                           Expanded(
                             child: Column(
                               children: [
-                                Text(
-                                  "89",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        GoogleFonts.openSans().fontFamily,
-                                  ),
+                                Obx(() {
+                                    return Text(
+                                      (controller.cardList.isEmpty ? '0' : controller.cardList.length.toString()),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily:
+                                            GoogleFonts.openSans().fontFamily,
+                                      ),
+                                    );
+                                  }
                                 ),
                                 SizedBox(height: 5),
                                 Text(
@@ -195,13 +203,16 @@ class ProfileScreen extends GetView<ProfileController> {
                         ],
                       ),
                       SizedBox(height: 20),
-                      Text(
-                        "Michael Jordan",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontFamily: GoogleFonts.openSans().fontFamily,
-                        ),
+                      Obx(() {
+                          return Text(
+                            controller.profile.value.name ?? '',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontFamily: GoogleFonts.openSans().fontFamily,
+                            ),
+                          );
+                        }
                       ),
                       Text(
                         "San Francisco, USA",
@@ -219,24 +230,43 @@ class ProfileScreen extends GetView<ProfileController> {
                         endIndent: 20,
                       ),
                       SizedBox(height: 20),
-                      Text(
-                        "I enjoy trading cards and collecting them. Check out my collection!",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: AppColors.textGrey,
-                          fontFamily: GoogleFonts.openSans().fontFamily,
-                        ),
+                      Obx(() {
+                          return Text(
+                            controller.profile.value.bio ?? '',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: AppColors.textGrey,
+                              fontFamily: GoogleFonts.openSans().fontFamily,
+                            ),
+                          );
+                        }
                       ),
                       SizedBox(height: 20),
                       CardListingWidget(),
                     ],
                   ),
                 ),
-                CircleAvatar(
-                  radius: 62,
-                  backgroundImage: AssetImage(AppImages.profile),
-                ),
+                Obx(() {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(62),
+                      child: Image.network(
+                        ApiConstants.userImageUrl+(controller.profile.value.profilePicture ?? ''),
+                        width: 124,
+                        height: 124,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            Assets.imagesImagePlaceholder,
+                              width: 124,
+                              height: 124,
+                              fit: BoxFit.cover,
+                          );
+                        },
+                      ),
+                    );
+                  }
+                )
               ],
             ),
           ),

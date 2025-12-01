@@ -9,4 +9,5 @@ class AppImages {
   static const profile = "$path/profile.jpg";
   static const card = "$path/card.png";
   static const success = "$path/success.png";
+  static const profilePlaceholder = "$path/image_placeholder.png";
 }

@@ -1,4 +1,5 @@
 import 'package:digital_card_grader/core/enums/card_type_enum.dart';
+import 'package:digital_card_grader/core/models/collection_response.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -17,8 +18,14 @@ class AddCardDetailController extends GetxController {
   final additionalNoteController = TextEditingController();
   CardTypeEnum? selectedCardType;
   final paymentCards = Rx<List<PaymentCardModel>>([]);
-  final image = RxnString();
-  var card = Card();
+  var collectionList = <CollectionBody>[].obs;
+  var selectedCollectionId = "".obs;
+
+  @override
+  onInit(){
+    super.onInit();
+    getCollection();
+  }
 
   Future<void> onAiScan() async {
     if (addCardFormKey.currentState!.validate()) {
@@ -26,17 +33,17 @@ class AddCardDetailController extends GetxController {
     }
   }
 
-  Future<void> scanCard() async {
+  /*Future<void> scanCard() async {
     final file = await CardScannerUtils.scanFromCamera();
     image.value = file?.path;
     if (file?.path != null) {
       uploadGrade();
     }
   }
-
-  Future<void> uploadGrade() async {
+*/
+  /*Future<void> uploadGrade() async {
     Map<String, dynamic> cardData = {};
-    var response = await ApiProvider().uploadGrade(cardData, image.value ?? "");
+    var response = await ApiProvider().uploadGrade(cardData, image.value ?? "","");
     Logger().d(response);
     if (response.success == true) {
       card = response.body ?? Card();
@@ -45,5 +52,31 @@ class AddCardDetailController extends GetxController {
     } else {
       Utils.showErrorToast(message: response.message);
     }
+  }*/
+
+  Future<void> getCollection() async {
+    var response = await ApiProvider().getCollection();
+    Logger().d(response);
+    if (response.success == true) {
+      collectionList.value = response.body ?? [];
+      return;
+    } else {
+      Utils.showErrorToast(message: response.message);
+    }
+  }
+
+  void cardValidation(){
+    if(nameController.text.trim().toString().isEmpty){
+      Utils.showErrorToast(message: 'Please enter card name.');
+      return;
+    }
+
+    if(typeController.text.trim().toString().isEmpty){
+      Utils.showErrorToast(message: 'Please select card type.');
+      return;
+    }
+
+    Get.toNamed(AppRoutes.uploadCard, arguments: {});
+
   }
 }

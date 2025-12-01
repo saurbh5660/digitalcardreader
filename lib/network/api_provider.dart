@@ -1,9 +1,12 @@
+import 'package:digital_card_grader/core/models/card_list_response.dart';
 import 'package:digital_card_grader/core/models/card_response.dart';
 import 'package:digital_card_grader/core/models/common_response.dart';
+import 'package:digital_card_grader/core/models/profile_response.dart';
 import 'package:digital_card_grader/core/models/signup_response.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:mime_type/mime_type.dart';
 import '../core/common/apputills.dart';
+import '../core/models/collection_response.dart';
 import '../core/models/login_response.dart';
 import 'api_constants.dart';
 import 'base_client.dart';
@@ -128,11 +131,11 @@ class ApiProvider {
 
   Future<CardResponse> uploadGrade(
       Map<String, dynamic> body,
-      String imagePath,
+      String frontPath
       ) async {
     Utils.showLoading();
-    if (imagePath.isNotEmpty) {
-      body['card'] = await getMultipartImage(path: imagePath);
+    if (frontPath.isNotEmpty) {
+      body['card'] = await getMultipartImage(path: frontPath);
     }
     ApiRequest apiRequest = ApiRequest(
       url: ApiConstants.uploadAndGrade,
@@ -159,7 +162,7 @@ class ApiProvider {
       ) async {
     Utils.showLoading();
     if (imagePath.isNotEmpty) {
-      body['imagePath'] = await getMultipartImage(path: imagePath);
+      body['image'] = await getMultipartImage(path: imagePath);
     }
     ApiRequest apiRequest = ApiRequest(
       url: ApiConstants.addCollection,
@@ -177,6 +180,89 @@ class ApiProvider {
         return CardResponse.fromJson(res?.data);
       }
       return CardResponse(message: e.toString());
+    }
+  }
+
+  Future<CommonResponse> saveImageData(
+      Map<String, dynamic> body
+      ) async {
+    ApiRequest apiRequest = ApiRequest(
+      url: ApiConstants.saveImageData,
+      requestType: RequestType.post,
+      body: body,
+    );
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      return CommonResponse.fromJson(response);
+    } catch (e) {
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return CommonResponse.fromJson(res?.data);
+      }
+      return CommonResponse(message: e.toString());
+    }
+  }
+
+  Future<CollectionResponse> getCollection(
+      ) async {
+    // Utils.showLoading();
+    ApiRequest apiRequest = ApiRequest(
+      url: ApiConstants.collectionList,
+      requestType: RequestType.get,
+    );
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      // Utils.hideLoading();
+      return CollectionResponse.fromJson(response);
+    } catch (e) {
+      // Utils.hideLoading();
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return CollectionResponse.fromJson(res?.data);
+      }
+      return CollectionResponse(message: e.toString());
+    }
+  }
+
+  Future<CardListResponse> getCardList(
+      ) async {
+    // Utils.showLoading();
+    ApiRequest apiRequest = ApiRequest(
+      url: ApiConstants.cardList,
+      requestType: RequestType.get,
+    );
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      // Utils.hideLoading();
+      return CardListResponse.fromJson(response);
+    } catch (e) {
+      // Utils.hideLoading();
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return CardListResponse.fromJson(res?.data);
+      }
+      return CardListResponse(message: e.toString());
+    }
+  }
+
+  Future<ProfileResponse> getProfile(
+      ) async {
+    Utils.showLoading();
+    ApiRequest apiRequest = ApiRequest(
+      url: ApiConstants.getProfile,
+      requestType: RequestType.get,
+    );
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      Utils.hideLoading();
+      return ProfileResponse.fromJson(response);
+    } catch (e) {
+      Utils.hideLoading();
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return ProfileResponse.fromJson(res?.data);
+      }
+      return ProfileResponse(message: e.toString());
     }
   }
 

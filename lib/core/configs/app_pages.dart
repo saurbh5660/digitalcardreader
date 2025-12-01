@@ -8,8 +8,10 @@ import 'package:digital_card_grader/core/features/auth/screens/verification_scre
 import 'package:digital_card_grader/core/features/browse/screens/browse_screen.dart';
 import 'package:digital_card_grader/core/features/card/screens/add_card_detail_screen.dart';
 import 'package:digital_card_grader/core/features/card/screens/add_payment_card_screen.dart';
+import 'package:digital_card_grader/core/features/card/screens/back_card_screen.dart';
 import 'package:digital_card_grader/core/features/card/screens/card_grading_screen.dart';
 import 'package:digital_card_grader/core/features/card/screens/payment_screen.dart';
+import 'package:digital_card_grader/core/features/card/screens/front_card_screen.dart';
 import 'package:digital_card_grader/core/features/chat/screens/chat_screen.dart';
 import 'package:digital_card_grader/core/features/cms/screens/cms_screens.dart';
 import 'package:digital_card_grader/core/features/contact/screens/contact_screen.dart';
@@ -24,6 +26,7 @@ import 'package:digital_card_grader/core/features/profile/screens/edit_profile_s
 import 'package:digital_card_grader/core/features/profile/screens/list_your_card_screen.dart';
 import 'package:digital_card_grader/core/features/profile/screens/profile_screen.dart';
 import 'package:digital_card_grader/core/features/profile/screens/view_profile_screen.dart';
+import 'package:digital_card_grader/core/features/setting/pack_screen.dart';
 import 'package:digital_card_grader/core/features/setting/screens/setting_screen.dart';
 import 'package:digital_card_grader/core/features/success/screens/success_screen.dart';
 import 'package:digital_card_grader/splash_screen.dart';
@@ -35,10 +38,7 @@ class AppPages {
   const AppPages._();
 
   static final all = <GetPage>[
-    GetPage(
-      name: AppRoutes.splash,
-      page: () => SplashScreen(),
-    ),
+    GetPage(name: AppRoutes.splash, page: () => SplashScreen()),
     GetPage(
       name: AppRoutes.onboarding,
       page: () => OnboardingScreen(),
@@ -56,8 +56,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.verification,
-      page: () =>
-          VerificationScreen(),
+      page: () => VerificationScreen(),
       binding: VerificationBinging(),
     ),
     GetPage(
@@ -164,6 +163,19 @@ class AppPages {
       name: AppRoutes.contact,
       page: () => ContactScreen(),
       binding: ContactBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.pack,
+      page: () => PacksScreen(),
+      binding: PackBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.uploadCard,
+      page: () => FrontCardsScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.uploadBackCard,
+      page: () => BackCardScreen(),
     ),
     GetPage(
       name: AppRoutes.success,

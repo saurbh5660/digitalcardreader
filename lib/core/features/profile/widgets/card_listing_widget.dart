@@ -1,13 +1,18 @@
 import 'package:digital_card_grader/core/features/profile/controllers/profile_controller.dart';
+import 'package:digital_card_grader/core/features/profile/widgets/card_widget.dart';
+import 'package:digital_card_grader/core/models/card_list_response.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../constants/app_colors.dart';
+import '../../../models/card_model.dart';
+import '../../../models/collection_response.dart';
 import '../../home/widgets/home_card.dart';
+import 'collection_card_widget.dart';
 
 class CardListingWidget extends GetView<ProfileController> {
-  const CardListingWidget({super.key});
+  CardListingWidget({super.key});
+  final profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +20,6 @@ class CardListingWidget extends GetView<ProfileController> {
       children: [
         Container(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-
           decoration: BoxDecoration(
             color: AppColors.card,
             borderRadius: BorderRadius.circular(50),
@@ -25,57 +29,107 @@ class CardListingWidget extends GetView<ProfileController> {
             children: ["Collections", "Cards", "Listings"].indexed
                 .map(
                   (e) => Expanded(
-                    child: GestureDetector(
-                      onTap: () => controller.onChangeIndex(e.$1),
-                      child: Obx(() {
-                        final isSelected =
-                            e.$1 == controller.selectedIndex.value;
-                        return Container(
-                          // margin: EdgeInsets.symmetric(horizontal: 5),
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? AppColors.white
-                                : AppColors.transparent,
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: Text(
-                            e.$2,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: isSelected
-                                  ? AppColors.black
-                                  : AppColors.textGrey,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: GoogleFonts.lato().fontFamily,
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                  ),
-                )
+                child: GestureDetector(
+                  onTap: () => controller.onChangeIndex(e.$1),
+                  child: Obx(() {
+                    final isSelected =
+                        e.$1 == controller.selectedIndex.value;
+                    return Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? AppColors.white
+                            : AppColors.transparent,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Text(
+                        e.$2,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: isSelected
+                              ? AppColors.black
+                              : AppColors.textGrey,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: GoogleFonts.lato().fontFamily,
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            )
                 .toList(),
           ),
         ),
         Obx(() {
-          final cardList = controller.cardList.value;
+          if (controller.isCurrentListEmpty) {
+            return Padding(
+              padding: EdgeInsets.only(top: 100),
+              child: Text(
+                getEmptyMessage(controller.selectedIndex.value),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: AppColors.textGrey,
+                  fontFamily: GoogleFonts.lato().fontFamily,
+                ),
+              ),
+            );
+          }
+
           return GridView.builder(
             shrinkWrap: true,
             padding: EdgeInsets.only(top: 20, bottom: 60),
             physics: NeverScrollableScrollPhysics(),
-            itemCount: cardList.length,
+            itemCount: controller.currentList.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 9 / 16,
+              childAspectRatio: getAspectRatio(controller.selectedIndex.value),
               mainAxisSpacing: 20,
               crossAxisSpacing: 10,
             ),
-            itemBuilder: (context, index) => HomeCard(card: cardList[index]),
+            itemBuilder: (context, index) {
+              final item = controller.currentList[index];
+              switch (controller.selectedIndex.value) {
+                case 0: // Collections
+                  return CollectionCard(collection: item as CollectionBody);
+                case 1: // Cards
+                  return CardWidget(cardList: item as CardList);
+                case 2: // Listings
+                  return HomeCard(card: item as CardModel);
+                default:
+                  return Container();
+              }
+            },
           );
         }),
       ],
     );
+  }
+
+  String getEmptyMessage(int index) {
+    switch (index) {
+      case 0:
+        return 'No collections found';
+      case 1:
+        return 'No cards found';
+      case 2:
+        return 'No listings found';
+      default:
+        return 'No data found';
+    }
+  }
+
+  double getAspectRatio(int index) {
+    switch (index) {
+      case 0: // Collections - you might want different aspect ratio
+        return 9 / 14;
+      case 1: // Cards
+        return 9 / 14;
+      case 2: // Listings
+        return 9 / 14;
+      default:
+        return 9 / 14;
+    }
   }
 }

@@ -45,7 +45,7 @@ class AddCollectionController extends GetxController {
     }
     Map<String, dynamic> addCollection = {
       "cardName": collectionName.text.trim(),
-      "cardType": "0",
+      // "cardType": "0",
     };
 
     var response = await ApiProvider().addCollection(addCollection, collectionImage.value ?? "");

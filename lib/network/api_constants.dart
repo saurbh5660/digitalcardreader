@@ -11,5 +11,9 @@ class ApiConstants {
   static const String forgotPassword = "$_baseUrl/users/forgotPassword";
   static const String uploadAndGrade = "$_baseUrl/users/uploadAndGrade";
   static const String addCollection = "$_baseUrl/users/addCollection";
+  static const String collectionList = "$_baseUrl/users/collectionList";
+  static const String saveImageData = "$_baseUrl/users/saveImageData";
+  static const String getProfile = "$_baseUrl/users/getProfile";
+  static const String cardList = "$_baseUrl/users/cardList";
 
 }
