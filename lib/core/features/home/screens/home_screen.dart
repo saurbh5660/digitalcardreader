@@ -1,6 +1,7 @@
 import 'package:digital_card_grader/core/features/home/controllers/home_controller.dart';
 import 'package:digital_card_grader/core/features/home/widgets/home_appbar.dart';
 import 'package:digital_card_grader/core/features/home/widgets/home_card.dart';
+import 'package:digital_card_grader/core/features/profile/widgets/market_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -48,17 +49,16 @@ class HomeScreen extends GetView<HomeController> {
                       ),
                     ),
                     Obx(() {
-                      final cardList = controller.cardList.value;
                       return SliverGrid.builder(
-                        itemCount: cardList.length,
+                        itemCount: controller.marketList.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           childAspectRatio: 9 / 16,
                           mainAxisSpacing: 20,
                           crossAxisSpacing: 10,
                         ),
-                        itemBuilder: (context, index) => HomeCard(
-                          card: cardList[index],
+                        itemBuilder: (context, index) => MarketWidget(
+                          cardList: controller.marketList[index],
                           canOpenProfile: true,
                         ),
                       );

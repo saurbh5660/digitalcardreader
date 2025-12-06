@@ -8,6 +8,7 @@ import 'package:mime_type/mime_type.dart';
 import '../core/common/apputills.dart';
 import '../core/models/collection_response.dart';
 import '../core/models/login_response.dart';
+import '../core/models/marketplace_response.dart';
 import 'api_constants.dart';
 import 'base_client.dart';
 import 'package:dio/dio.dart' as dio;
@@ -242,6 +243,89 @@ class ApiProvider {
         return CardListResponse.fromJson(res?.data);
       }
       return CardListResponse(message: e.toString());
+    }
+  }
+
+  Future<CardListResponse> getCardListWithId(
+      Map<String, dynamic> body
+      ) async {
+    String queryString = Uri(queryParameters: body).query;
+    String urlWithParams = "${ApiConstants.cardList}?$queryString";
+    ApiRequest apiRequest = ApiRequest(
+      url: urlWithParams,
+      requestType: RequestType.get,
+      body: body,
+    );
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      return CardListResponse.fromJson(response);
+    } catch (e) {
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return CardListResponse.fromJson(res?.data);
+      }
+      return CardListResponse(message: e.toString());
+    }
+  }
+
+  Future<CommonResponse> addToMarketPlace(Map<String, dynamic> body) async {
+    Utils.showLoading();
+    ApiRequest apiRequest = ApiRequest(
+      url: ApiConstants.addToMarketPlace,
+      requestType: RequestType.post,
+      body: body,
+    );
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      Utils.hideLoading();
+      return CommonResponse.fromJson(response);
+    } catch (e) {
+      Utils.hideLoading();
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return CommonResponse.fromJson(res?.data);
+      }
+      return CommonResponse(message: e.toString());
+    }
+  }
+
+  Future<MarketplaceResponse> getMarketPlace() async {
+    ApiRequest apiRequest = ApiRequest(
+      url: ApiConstants.marketPlaceList,
+      requestType: RequestType.get,
+    );
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      return MarketplaceResponse.fromJson(response);
+    } catch (e) {
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return MarketplaceResponse.fromJson(res?.data);
+      }
+      return MarketplaceResponse(message: e.toString());
+    }
+  }
+
+  Future<MarketplaceResponse> home(Map<String, dynamic> body) async {
+    Utils.showLoading();
+    String queryString = Uri(queryParameters: body).query;
+    String urlWithParams = "${ApiConstants.home}?$queryString";
+    ApiRequest apiRequest = ApiRequest(
+      url: urlWithParams,
+      requestType: RequestType.get,
+      body: body,
+    );
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      Utils.hideLoading();
+      return MarketplaceResponse.fromJson(response);
+    } catch (e) {
+      Utils.hideLoading();
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return MarketplaceResponse.fromJson(res?.data);
+      }
+      return MarketplaceResponse(message: e.toString());
     }
   }
 

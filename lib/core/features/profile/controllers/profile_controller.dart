@@ -1,4 +1,5 @@
 import 'package:digital_card_grader/core/models/card_list_response.dart';
+import 'package:digital_card_grader/core/models/marketplace_response.dart';
 import 'package:digital_card_grader/core/models/profile_response.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -14,7 +15,7 @@ class ProfileController extends GetxController {
   var collectionList = <CollectionBody>[].obs;
   var profile = ProfileData().obs;
   var cardList = <CardList>[].obs;
-  var listingList = <CardModel>[].obs;
+  var marketList = <MarketList>[].obs;
 
   @override
   void onInit() {
@@ -23,7 +24,7 @@ class ProfileController extends GetxController {
     getProfile();
     getCollection();
     getCardListing();
-    getListings();
+    getMarketListing();
   }
 
   void onChangeIndex(int index) {
@@ -63,29 +64,18 @@ class ProfileController extends GetxController {
     }
   }
 
-
-  Future<void> getListings() async {
-    listingList.value = [
-      CardModel(
-        id: 3,
-        title: "Pikachu",
-        price: 150,
-        image: AppImages.card,
-        owner: "Derek Watakovski",
-        ownerImage: AppImages.profile,
-      ),
-      CardModel(
-        id: 4,
-        title: "Blastoise",
-        price: 280,
-        image: AppImages.card,
-        owner: "Derek Watakovski",
-        ownerImage: AppImages.profile,
-      ),
-    ];
+  Future<void> getMarketListing() async {
+    var response = await ApiProvider().getMarketPlace();
+    Logger().d(response);
+    if (response.success == true) {
+      marketList.value = response.body ?? [];
+      return;
+    } else {
+      Utils.showErrorToast(message: response.message);
+    }
   }
 
-  // Getter for current list based on selected tab
+
   List<dynamic> get currentList {
     switch (selectedIndex.value) {
       case 0: // Collections
@@ -93,7 +83,7 @@ class ProfileController extends GetxController {
       case 1: // Cards
         return cardList;
       case 2: // Listings
-        return listingList;
+        return marketList;
       default:
         return [];
     }
@@ -107,7 +97,7 @@ class ProfileController extends GetxController {
       case 1:
         return cardList.isEmpty;
       case 2:
-        return listingList.isEmpty;
+        return marketList.isEmpty;
       default:
         return true;
     }

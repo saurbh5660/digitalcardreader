@@ -15,5 +15,8 @@ class ApiConstants {
   static const String saveImageData = "$_baseUrl/users/saveImageData";
   static const String getProfile = "$_baseUrl/users/getProfile";
   static const String cardList = "$_baseUrl/users/cardList";
+  static const String addToMarketPlace = "$_baseUrl/users/addToMarketPlace";
+  static const String marketPlaceList = "$_baseUrl/users/marketPlaceList";
+  static const String home = "$_baseUrl/users/home";
 
 }

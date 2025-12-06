@@ -1,6 +1,8 @@
 import 'package:digital_card_grader/core/features/profile/controllers/profile_controller.dart';
 import 'package:digital_card_grader/core/features/profile/widgets/card_widget.dart';
+import 'package:digital_card_grader/core/features/profile/widgets/market_widget.dart';
 import 'package:digital_card_grader/core/models/card_list_response.dart';
+import 'package:digital_card_grader/core/models/marketplace_response.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -96,7 +98,8 @@ class CardListingWidget extends GetView<ProfileController> {
                 case 1: // Cards
                   return CardWidget(cardList: item as CardList);
                 case 2: // Listings
-                  return HomeCard(card: item as CardModel);
+                  return MarketWidget(cardList: item as MarketList);
+
                 default:
                   return Container();
               }

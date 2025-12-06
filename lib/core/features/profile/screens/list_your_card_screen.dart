@@ -4,9 +4,12 @@ import 'package:digital_card_grader/core/constants/app_colors.dart';
 import 'package:digital_card_grader/core/constants/app_strings.dart';
 import 'package:digital_card_grader/core/enums/card_collection_enum.dart';
 import 'package:digital_card_grader/core/features/profile/controllers/list_your_card_controller.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 
 import '../../../common/common_dropdown.dart';
 import '../../auth/widgets/auth_header.dart';
@@ -39,26 +42,9 @@ class ListYourCardScreen extends GetView<ListYourCardController> {
                         ),
                       ),
                       SizedBox(height: 20),
-                      CommonDropdrown(
-                        showTitle: true,
-                        hint: "Choose a card from your collection",
-                        controller: controller.selectedCollectionController,
-                        options: CardCollectionEnum.values,
-                        titleBuilder: (option) =>
-                            option.name.capitalize.toString(),
-
-                        onSelected: (option) {
-                          controller.selectedCardCollection = option;
-                        },
-                        // validator: (input) {
-                        //   input = input!.trim();
-                        //   if (input.isEmpty) {
-                        //     return AppStrings.selectCardCollection;
-                        //   } else {
-                        //     return null;
-                        //   }
-                        // },
-                      ),
+                      openDropDown(controller),
+                      SizedBox(height: 20),
+                      openCardDropDown(controller),
                       CommonTextfield(
                         AppStrings.price,
                         controller: controller.priceController,
@@ -92,7 +78,9 @@ class ListYourCardScreen extends GetView<ListYourCardController> {
                       ),
                       CommonButton(
                         title: "Submit to Marketplace",
-                        onPressed: controller.onSubmit,
+                        onPressed:() async{
+                          controller.addToMarketPlace();
+                        },
                       ),
                     ],
                   ),
@@ -101,6 +89,132 @@ class ListYourCardScreen extends GetView<ListYourCardController> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget openDropDown(ListYourCardController controller) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            " Collection:",
+            style: TextStyle(
+              fontSize: 13,
+              fontFamily: GoogleFonts.crimsonText().fontFamily,
+            ),
+          ),
+          const SizedBox(height: 5),
+          Container(
+            height: 60,
+            padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+            decoration: BoxDecoration(
+              color: AppColors.card,
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(color: AppColors.card, width: 1.5),
+            ),
+            child: DropdownSearch<String>(
+              items: (filter, cont) {
+                return controller.collectionList
+                    .map((category) => category.cardName ?? "")
+                    .toList();
+              },
+              decoratorProps: DropDownDecoratorProps(
+                baseStyle: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                  fontFamily: GoogleFonts.poppins().fontFamily,
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Select Collection',
+                  hintStyle: TextStyle(
+                    color: AppColors.textGrey,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: GoogleFonts.poppins().fontFamily,
+                  ),
+                  border: InputBorder.none,
+                ),
+              ),
+              popupProps: const PopupProps.menu(
+                fit: FlexFit.loose,
+              ),
+              onChanged: (selectedValue) {
+                var selectedCollection = controller.collectionList.firstWhere(
+                      (category) => category.cardName == selectedValue,
+                );
+
+                Logger().d("sgdsgdsgsdgds");
+                controller.selectedCollectionId.value = selectedCollection.id ?? "";
+                controller.getCardListing();
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget openCardDropDown(ListYourCardController controller) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            " Choose a card from your collection::",
+            style: TextStyle(
+              fontSize: 13,
+              fontFamily: GoogleFonts.crimsonText().fontFamily,
+            ),
+          ),
+          const SizedBox(height: 5),
+          Container(
+            height: 60,
+            padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+            decoration: BoxDecoration(
+              color: AppColors.card,
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(color: AppColors.card, width: 1.5),
+            ),
+            child: DropdownSearch<String>(
+              items: (filter, cont) {
+                return controller.cardList
+                    .map((category) => category.cardName ?? "")
+                    .toList();
+              },
+              decoratorProps: DropDownDecoratorProps(
+                baseStyle: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                  fontFamily: GoogleFonts.poppins().fontFamily,
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Select Card',
+                  hintStyle: TextStyle(
+                    color: AppColors.textGrey,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: GoogleFonts.poppins().fontFamily,
+                  ),
+                  border: InputBorder.none,
+                ),
+              ),
+              popupProps: const PopupProps.menu(
+                fit: FlexFit.loose,
+              ),
+              onChanged: (selectedValue) {
+                var selectedCollection = controller.cardList.firstWhere(
+                      (category) => category.cardName == selectedValue,
+                );
+
+                controller.selectedCardId.value = selectedCollection.id ?? "";
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
