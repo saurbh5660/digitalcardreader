@@ -24,4 +24,6 @@ class ChatModel {
     data['time'] = time;
     return data;
   }
+
+  void operator [](String other) {}
 }

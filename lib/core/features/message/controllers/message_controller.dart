@@ -3,71 +3,74 @@ import 'package:digital_card_grader/core/models/chat_model.dart';
 import 'package:digital_card_grader/core/models/message_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
+
+import '../../../common/db_helper.dart';
+import '../../../common/socket_service.dart';
 
 class MessageController extends GetxController {
-  final chat = Get.arguments as ChatModel;
-  final inputController = TextEditingController();
+  final SocketService _socketService = SocketService();
+  RxList<dynamic> messages = <dynamic>[].obs;
+  late String senderId;
+  late String receiverId;
 
-  final messages = Rx<List<MessageModel>>([
-    MessageModel(
-      id: "1",
-      message: "Hey, how are you?",
-      senderImage: AppImages.profile,
-      senderId: "user_001",
-    ),
-    MessageModel(
-      id: "2",
-      message: "I’m good! What about you?",
-      senderImage: AppImages.profile,
-      senderId: "user_002",
-    ),
-    MessageModel(
-      id: "3",
-      message: "Doing great, thanks for asking 🙌",
-      senderImage: AppImages.profile,
-      senderId: "user_001",
-    ),
-    MessageModel(
-      id: "4",
-      message: "Have you finished the project?",
-      senderImage: AppImages.profile,
-      senderId: "user_001",
-    ),
-    MessageModel(
-      id: "5",
-      message: "Almost! I’ll send it over tonight.",
-      senderImage: AppImages.profile,
-      senderId: "user_002",
-    ),
-    MessageModel(
-      id: "6",
-      message: "Perfect 👌 Thanks a lot!",
-      senderImage: AppImages.profile,
-      senderId: "user_001",
-    ),
-    MessageModel(
-      id: "7",
-      message: "No worries. By the way, did you check the new update?",
-      senderImage: AppImages.profile,
-      senderId: "user_002",
-    ),
-    MessageModel(
-      id: "8",
-      message: "Yes! Looks amazing 🔥",
-      senderImage: AppImages.profile,
-      senderId: "user_001",
-    ),
-    MessageModel(
-      id: "9",
-      message: "Let’s catch up tomorrow at the café?",
-      senderImage: AppImages.profile,
-      senderId: "user_002",
-    ),
-    MessageModel(
-      id: "10",
-      message: "Sounds good ☕ See you at 5?",
-      senderImage: AppImages.profile,
-      senderId: "user_001",
-    ),
-  ]);
+  @override
+  void onInit() {
+    super.onInit();
+    receiverId = Get.arguments["receiverId"].toString();
+    senderId = DbHelper()
+        .getUserModel()
+        ?.id
+        .toString() ?? "";
+
+    _loadChatMessages();
+    _observeIncomingMessages();
+  }
+
+  void _loadChatMessages() {
+    var messageData = {
+      "senderId": senderId,
+      "receiverId": receiverId,
+    };
+    _socketService.getMesssages(messageData);
+  }
+
+  void _observeIncomingMessages() {
+    _socketService.chatMessagesStream.listen((data) {
+      if (data is Map<String, dynamic> && data['getdata'] is List) {
+        List<dynamic> allMessages = data['getdata'];
+        messages.value = allMessages.where((msg) {
+          String msgSender = msg['senderId'].toString();
+          String msgReceiver = msg['receiverId'].toString();
+          return (msgSender == senderId && msgReceiver == receiverId) ||
+              (msgSender == receiverId && msgReceiver == senderId);
+        }).toList();
+      }
+      else if (data is Map<String, dynamic>) {
+        String msgSender = data['senderId'].toString();
+        String msgReceiver = data['receiverId'].toString();
+
+        if ((msgSender == senderId && msgReceiver == receiverId) ||
+            (msgSender == receiverId && msgReceiver == senderId)) {
+          messages.add(data);
+        }
+      }
+    });
+  }
+
+
+  void sendMessage(String messageText, int type) {
+    if (messageText
+        .trim()
+        .isEmpty) return;
+
+    var messageData = {
+      "senderId": senderId,
+      "receiverId": receiverId,
+      "message": messageText.trim(),
+      "message_type": type,
+    };
+    Logger().d(messageData);
+    _socketService.sendMessage(messageData);
+  }
 }

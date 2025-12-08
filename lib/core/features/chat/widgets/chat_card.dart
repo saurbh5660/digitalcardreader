@@ -5,12 +5,29 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../common/db_helper.dart';
+
 class ChatCard extends StatelessWidget {
-  final ChatModel chat;
+  final dynamic chat;
   const ChatCard({super.key, required this.chat});
+
 
   @override
   Widget build(BuildContext context) {
+    final senderId = DbHelper().getUserModel()?.id.toString() ?? "";
+    final bool isSender = chat['senderId'] == senderId;
+    final user =
+    isSender ? chat['receiver'] : chat['sender'];
+    final String name =
+    "${user['firstName'] ?? ''} ${user['lastName'] ?? ''}"
+        .trim();
+    final String profilePicture =
+        user['profilePicture'] ?? "";
+    final String lastMessage =
+        chat['lastMessageIds']?['message'] ?? "No messages";
+    final String lastMessageTime = chat['updatedAt'] ?? "";
+    final int unreadCount = chat['unreadCount'] ?? 0;
+
     return ListTile(
       contentPadding: EdgeInsets.only(),
       onTap: () => Get.toNamed(AppRoutes.message, arguments: chat),

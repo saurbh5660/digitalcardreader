@@ -8,6 +8,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../network/api_provider.dart';
+import '../../../common/apputills.dart';
+import '../../../common/db_helper.dart';
+
 class SettingController extends GetxController {
   final isNotification = RxBool(true);
   final tabs = [
@@ -48,7 +52,9 @@ class SettingController extends GetxController {
                 fontWeight: FontWeight.w600,
                 fontFamily: GoogleFonts.poppins().fontFamily,
               ),
-              onPressed: () async => Get.offAllNamed(AppRoutes.signin),
+              onPressed: () async{
+                deleteAccount();
+              },
             ),
             SizedBox(height: 20),
             CommonButton(
@@ -80,7 +86,9 @@ class SettingController extends GetxController {
                 fontWeight: FontWeight.w600,
                 fontFamily: GoogleFonts.poppins().fontFamily,
               ),
-              onPressed: () async => Get.offAllNamed(AppRoutes.signin),
+              onPressed: () async {
+                logoutAccount();
+              },
             ),
             SizedBox(height: 20),
             CommonButton(
@@ -100,4 +108,42 @@ class SettingController extends GetxController {
       // Get.offAllNamed(AppRoutes.signin);
     }
   }
+
+
+  Future<void> notificationStatus(int status) async {
+    Map<String, dynamic> data = {
+      "notificationStatus": status.toString(),
+    };
+    var response = await ApiProvider().notificationOnOff(data);
+    if (response.success == true) {
+      var loginData = DbHelper().getUserModel();
+      // loginData?.notificationStatus = status;
+      DbHelper().saveUserModel(loginData);
+    } else {
+      Utils.showToast(message: response.message);
+    }
+  }
+
+
+
+  Future<void> deleteAccount() async {
+    var response = await ApiProvider().deleteAccount();
+    if (response.success == true) {
+      DbHelper().clearAll();
+      Get.offAllNamed(AppRoutes.signin);
+    } else {
+      Utils.showToast(message: response.message);
+    }
+  }
+
+  Future<void> logoutAccount() async {
+    var response = await ApiProvider().logout();
+    if (response.success == true) {
+      DbHelper().clearAll();
+      Get.offAllNamed(AppRoutes.signin);
+    } else {
+      Utils.showToast(message: response.message);
+    }
+  }
+
 }

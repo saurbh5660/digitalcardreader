@@ -18,5 +18,12 @@ class ApiConstants {
   static const String marketPlaceList = "$_baseUrl/users/marketPlaceList";
   static const String home = "$_baseUrl/users/home";
   static const String updateProfile = "$_baseUrl/users/updateProfile";
+  static const String changePassword = "$_baseUrl/users/changePassword";
+  static const String contactUs = "$_baseUrl/users/contactUs";
+  static const String deleteAccount = "$_baseUrl/users/deleteAccount";
+  static const String logout = "$_baseUrl/users/logout";
+  static const String notificationOnOff = "$_baseUrl/users/notificationOnOff";
+
+
 
 }

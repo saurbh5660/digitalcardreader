@@ -4,6 +4,7 @@ import 'package:digital_card_grader/core/models/common_response.dart';
 import 'package:digital_card_grader/core/models/profile_response.dart';
 import 'package:digital_card_grader/core/models/signup_response.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:logger/logger.dart';
 import 'package:mime_type/mime_type.dart';
 import '../core/common/apputills.dart';
 import '../core/models/collection_response.dart';
@@ -375,6 +376,107 @@ class ApiProvider {
         return ProfileResponse.fromJson(res?.data);
       }
       return ProfileResponse(message: e.toString());
+    }
+  }
+
+
+  Future<CommonResponse> changePassword(Map<String, dynamic> body) async {
+    Utils.showLoading();
+    ApiRequest apiRequest = ApiRequest(
+        url: ApiConstants.changePassword,
+        requestType: RequestType.post,
+        body: body);
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      Utils.hideLoading();
+      return CommonResponse.fromJson(response);
+    } catch (e, stackTrace) {
+      Logger().e("Error: ${e.toString()} \nStackTrace: $stackTrace");
+      Utils.hideLoading();
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return CommonResponse.fromJson(res?.data);
+      }
+      return CommonResponse(message: e.toString());
+    }
+  }
+
+  Future<CommonResponse> contactUs(Map<String, dynamic> body) async {
+    ApiRequest apiRequest = ApiRequest(
+        url: ApiConstants.contactUs, requestType: RequestType.post, body: body);
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      Utils.hideLoading();
+      return CommonResponse.fromJson(response);
+    } catch (e, stackTrace) {
+      Logger().e("Error: ${e.toString()} \nStackTrace: $stackTrace");
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return CommonResponse.fromJson(res?.data);
+      }
+      return CommonResponse(message: e.toString());
+    }
+  }
+
+  Future<CommonResponse> notificationOnOff(Map<String, dynamic> body) async {
+    Utils.showLoading();
+    ApiRequest apiRequest = ApiRequest(
+        url: ApiConstants.notificationOnOff,
+        requestType: RequestType.post,
+        body: body);
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      Utils.hideLoading();
+      return CommonResponse.fromJson(response);
+    } catch (e) {
+      Utils.hideLoading();
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return CommonResponse.fromJson(res?.data);
+      }
+      return CommonResponse(message: e.toString());
+    }
+  }
+
+  Future<CommonResponse> deleteAccount() async {
+    Utils.showLoading();
+    Map<String, dynamic> body = {};
+    ApiRequest apiRequest = ApiRequest(
+        url: ApiConstants.deleteAccount,
+        requestType: RequestType.post,
+        body: body);
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      Utils.hideLoading();
+      return CommonResponse.fromJson(response);
+    } catch (e, stackTrace) {
+      Logger().e("Error: ${e.toString()} \nStackTrace: $stackTrace");
+      Utils.hideLoading();
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return CommonResponse.fromJson(res?.data);
+      }
+      return CommonResponse(message: e.toString());
+    }
+  }
+
+  Future<CommonResponse> logout() async {
+    Utils.showLoading();
+    Map<String, dynamic> body = {};
+    ApiRequest apiRequest = ApiRequest(
+        url: ApiConstants.logout, requestType: RequestType.post, body: body);
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      Utils.hideLoading();
+      return CommonResponse.fromJson(response);
+    } catch (e, stackTrace) {
+      Logger().e("Error: ${e.toString()} \nStackTrace: $stackTrace");
+      Utils.hideLoading();
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return CommonResponse.fromJson(res?.data);
+      }
+      return CommonResponse(message: e.toString());
     }
   }
 

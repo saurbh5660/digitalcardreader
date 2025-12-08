@@ -16,7 +16,7 @@ class MessageBar extends GetView<MessageController> {
         "Send Message",
         showTitle: false,
         bottomMargin: 5,
-        controller: controller.inputController,
+        // controller: controller.inputController,
         suffix: IconButton(
           onPressed: () {},
           icon: Icon(CupertinoIcons.location, color: AppColors.textGrey),

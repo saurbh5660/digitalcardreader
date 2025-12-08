@@ -6,25 +6,51 @@ import 'package:digital_card_grader/core/features/message/widgets/message_card.d
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-class MessageScreen extends GetView<MessageController> {
+class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});
 
   @override
+  State<MessageScreen> createState() => _MessageScreenState();
+}
+
+class _MessageScreenState extends State<MessageScreen> {
+  final MessageController chatController = Get.put(MessageController());
+  final TextEditingController _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, _scrollToBottom);
+  }
+
+  void _sendMessage() {
+    chatController.sendMessage(_messageController.text,0);
+    _messageController.clear();
+    _scrollToBottom();
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
+    });
+  }
+  @override
   Widget build(BuildContext context) {
-    final chat = controller.chat;
     return Scaffold(
       appBar: commonAppBar(
-        title: chat.sender ?? "",
+        title: "",
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 30),
           onPressed: () => Navigator.maybePop(Get.context!),
         ),
         child: ListTile(
           contentPadding: EdgeInsets.only(right: 15),
-          leading: CircleAvatar(backgroundImage: AssetImage(chat.image ?? "")),
+          leading: CircleAvatar(backgroundImage: AssetImage("")),
           title: Text(
-            chat.sender ?? "",
+            "",
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 18,
@@ -52,12 +78,19 @@ class MessageScreen extends GetView<MessageController> {
           children: [
             Expanded(
               child: Obx(() {
-                final messages = controller.messages.value;
+                final messages = chatController.messages;
+                if (messages.isEmpty) {
+                  return const Center(child: Text("No messages yet."));
+                }
+                Future.delayed(Duration.zero, _scrollToBottom);
                 return ListView.builder(
-                  itemCount: messages.length,
+                  controller: _scrollController,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  itemBuilder: (context, index) =>
-                      MessageCard(message: messages[index]),
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    final message = messages[index];
+                    return MessageCard(message: message);
+                  },
                 );
               }),
             ),

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../common/db_helper.dart';
+
 class SettingScreen extends GetView<SettingController> {
   const SettingScreen({super.key});
 
@@ -61,8 +63,15 @@ class SettingScreen extends GetView<SettingController> {
                                   value: controller.isNotification.value,
                                   activeTrackColor: AppColors.swatch,
                                   inactiveThumbColor: AppColors.swatch,
-                                  onChanged: (_) =>
-                                      controller.isNotification.toggle(),
+                                  onChanged: (_) {
+                                    controller.isNotification.toggle();
+                                   /* if (DbHelper().getUserModel()?. == 1) {
+                                      Get.find<SettingController>().notificationStatus(0);
+                                    } else {
+                                      Get.find<SettingController>().notificationStatus(1);
+                                    }*/
+                                  }
+
                                 );
                               }),
                           ],
