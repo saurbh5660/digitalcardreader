@@ -3,11 +3,8 @@ import 'package:digital_card_grader/core/models/marketplace_response.dart';
 import 'package:digital_card_grader/core/models/profile_response.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-
 import '../../../../network/api_provider.dart';
 import '../../../common/apputills.dart';
-import '../../../constants/app_images.dart';
-import '../../../models/card_model.dart';
 import '../../../models/collection_response.dart';
 
 class ProfileController extends GetxController {

@@ -329,6 +329,34 @@ class ApiProvider {
     }
   }
 
+
+  Future<SignupResponse> updateProfile(
+      Map<String, dynamic> body,
+      String imagePath,
+      ) async {
+    Utils.showLoading();
+    if (imagePath.isNotEmpty && !(imagePath.startsWith("http"))) {
+      body['image'] = await getMultipartImage(path: imagePath);
+    }
+    ApiRequest apiRequest = ApiRequest(
+      url: ApiConstants.updateProfile,
+      requestType: RequestType.patch,
+      body: body,
+    );
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      Utils.hideLoading();
+      return SignupResponse.fromJson(response);
+    } catch (e) {
+      Utils.hideLoading();
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return SignupResponse.fromJson(res?.data);
+      }
+      return SignupResponse(message: e.toString());
+    }
+  }
+
   Future<ProfileResponse> getProfile(
       ) async {
     Utils.showLoading();

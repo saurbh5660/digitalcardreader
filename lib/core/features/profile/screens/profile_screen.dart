@@ -26,7 +26,12 @@ class ProfileScreen extends GetView<ProfileController> {
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500),
           ),
           subtitle: GestureDetector(
-            onTap: () => Get.toNamed(AppRoutes.editProfile),
+            onTap: () async{
+             final result = await Get.toNamed(AppRoutes.editProfile);
+             if(result != null){
+               controller.getProfile();
+             }
+            },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

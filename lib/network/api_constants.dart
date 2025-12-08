@@ -3,7 +3,6 @@ class ApiConstants {
   static const String _baseUrl = "http://43.204.254.177:3005";
   static const String socketUrl = "http://43.204.254.177:3005";
   static const String userImageUrl = "http://43.204.254.177:3005";
-
   static const String login = "$_baseUrl/users/login";
   static const String signup = "$_baseUrl/users/signUp";
   static const String userOtpVerify = "$_baseUrl/users/otpVerify";
@@ -18,5 +17,6 @@ class ApiConstants {
   static const String addToMarketPlace = "$_baseUrl/users/addToMarketPlace";
   static const String marketPlaceList = "$_baseUrl/users/marketPlaceList";
   static const String home = "$_baseUrl/users/home";
+  static const String updateProfile = "$_baseUrl/users/updateProfile";
 
 }

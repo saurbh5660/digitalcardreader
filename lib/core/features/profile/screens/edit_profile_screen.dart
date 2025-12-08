@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../generated/assets.dart';
 import '../../../common/common_textfield.dart';
 import '../../../constants/app_strings.dart';
 
@@ -62,20 +63,32 @@ class EditProfileScreen extends GetView<EditProfileController> {
                       ),
                       child: GestureDetector(
                         onTap: controller.selectProfile,
-                        child: Obx(() {
-                          return CircleAvatar(
-                            backgroundColor: AppColors.swatch.withAlpha(50),
-                            radius: 80,
-                            backgroundImage: controller.profile.value != null
-                                ? FileImage(File(controller.profile.value!))
-                                : AssetImage(AppImages.profile),
-                            child: Icon(
-                              Icons.camera_alt,
-                              color: AppColors.white,
-                              size: 50,
-                            ),
-                          );
-                        }),
+                        child: ClipOval(
+                          child: Obx(() {
+                            return controller.profileImages.value == null
+                                ? Image.asset(
+                                    Assets.imagesImagePlaceholder,
+                                    height: 180,
+                                    width: 180,
+                                    fit: BoxFit.cover,
+                                  )
+                                : controller.profileImages.value!.startsWith(
+                                    'http',
+                                  )
+                                ? Image.network(
+                                    controller.profileImages.value!,
+                                    fit: BoxFit.cover,
+                                    height: 180,
+                                    width: 180,
+                                  )
+                                : Image.file(
+                                    File(controller.profileImages.value!),
+                                    fit: BoxFit.cover,
+                                    height: 180,
+                                    width: 180,
+                                  );
+                          }),
+                        ),
                       ),
                     ),
                   ),
@@ -135,10 +148,11 @@ class EditProfileScreen extends GetView<EditProfileController> {
                     // },
                   ),
                   SizedBox(height: 30),
-
                   CommonButton(
                     title: "Save",
-                    onPressed: controller.onSaveProfile,
+                    onPressed: () async {
+                      controller.validationUpdate();
+                    },
                   ),
                 ],
               ),
