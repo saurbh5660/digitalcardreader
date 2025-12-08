@@ -21,8 +21,7 @@ class MarketWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Add navigation to collection detail if needed
-        Get.toNamed(AppRoutes.cardDetail, arguments: {});
+        Get.toNamed(AppRoutes.cardDetail, arguments: {'cardList': cardList});
       },
       child: Card(
         shape: RoundedRectangleBorder(

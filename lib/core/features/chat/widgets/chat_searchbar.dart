@@ -12,7 +12,8 @@ class ChatSearchbar extends GetView<ChatController> {
 
   @override
   Widget build(BuildContext context) {
-    return CommonTextfield(
+    return
+      CommonTextfield(
       "Search Here..",
       showTitle: false,
       borderSide: BorderSide(width: 1, color: AppColors.textGrey.withAlpha(80)),

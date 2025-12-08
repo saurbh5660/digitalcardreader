@@ -1,14 +1,14 @@
 import 'package:digital_card_grader/core/common/common_appbar.dart';
 import 'package:digital_card_grader/core/constants/app_icons.dart';
-import 'package:digital_card_grader/core/features/chat/controllers/chat_controller.dart';
 import 'package:digital_card_grader/core/features/chat/widgets/chat_card.dart';
 import 'package:digital_card_grader/core/features/chat/widgets/chat_searchbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
+import '../../../common/common_textfield.dart';
 import '../../../common/db_helper.dart';
 import '../../../common/socket_service.dart';
+import '../../../constants/app_colors.dart';
 import '../../../constants/app_routes.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -57,7 +57,7 @@ class _ChatScreenState extends State<ChatScreen> {
           final bool isSender = chat['senderId'] == senderId;
           final user = isSender ? chat['receiver'] : chat['sender'];
           final String name =
-          "${user['firstName'] ?? ''} ${user['lastName'] ?? ''}".trim();
+              "${user['firstName'] ?? ''} ${user['lastName'] ?? ''}".trim();
 
           return name.toLowerCase().contains(query.toLowerCase());
         }).toList();
@@ -96,23 +96,49 @@ class _ChatScreenState extends State<ChatScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              ChatSearchbar(),
+              CommonTextfield(
+                controller:searchController,
+                "Search Here..",
+                showTitle: false,
+                borderSide: BorderSide(
+                  width: 1,
+                  color: AppColors.textGrey.withAlpha(80),
+                ),
+                fillColor: AppColors.white,
+                hintStyle: TextStyle(
+                  fontSize: 14,
+
+                  color: AppColors.textGrey.withAlpha(100),
+                ),
+                isDense: true,
+                prefix: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 15,
+                    right: 10,
+                    top: 4,
+                    bottom: 4,
+                  ),
+                  child: ImageIcon(
+                    AssetImage(AppIcons.search),
+                    color: AppColors.accent,
+                  ),
+                ),
+                suffix: Icon(Icons.mic, color: AppColors.textGrey, size: 25),
+              ),
               Expanded(
-                child: Obx(() {
-                  return filteredChats.isEmpty
-                      ? const Center(child: Text("No conversations found"))
-                      : CustomScrollView(
-                    slivers: [
-                      SliverList.builder(
-                        itemCount:filteredChats.length,
-                        itemBuilder: (context, index) {
-                          final chat = filteredChats[index];
-                          return ChatCard(chat: chat);
-                        }
+                child: filteredChats.isEmpty
+                    ? const Center(child: Text("No conversations found"))
+                    : CustomScrollView(
+                        slivers: [
+                          SliverList.builder(
+                            itemCount: filteredChats.length,
+                            itemBuilder: (context, index) {
+                              final chat = filteredChats[index];
+                              return ChatCard(chat: chat);
+                            },
+                          ),
+                        ],
                       ),
-                    ],
-                  );
-                }),
               ),
             ],
           ),

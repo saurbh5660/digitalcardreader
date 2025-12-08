@@ -65,7 +65,7 @@ class CardDetailScreen extends GetView<CardDetailController> {
                             ),
                             SizedBox(height: 20),
                             Image.asset(
-                              card.image ?? "",
+                              card.user?.profilePicture ?? "",
                               width: MediaQuery.of(context).size.width * 0.6,
                             ),
                           ],
@@ -80,14 +80,14 @@ class CardDetailScreen extends GetView<CardDetailController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  card.title ?? "",
+                                  card.userCard?.cardName ?? "",
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
                                 Text(
-                                  card.owner ?? "",
+                                  card.user?.name ?? "",
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 14,
@@ -108,7 +108,7 @@ class CardDetailScreen extends GetView<CardDetailController> {
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
-                              "${card.rating ?? 0.0}",
+                              "${0.0}",
                               style: TextStyle(color: AppColors.white),
                             ),
                           ),
@@ -123,23 +123,23 @@ class CardDetailScreen extends GetView<CardDetailController> {
                         ),
                       ),
                       Text(
-                        "Centering : 9",
+                        "Centering : ${card.userCard?.centering.toString()}",
                         style: TextStyle(color: AppColors.textGrey),
                       ),
                       Text(
-                        "Edges : 9",
+                        "Edges : ${card.userCard?.edges.toString()}",
                         style: TextStyle(color: AppColors.textGrey),
                       ),
                       Text(
-                        "Corners : 10",
+                        "Corners : ${card.userCard?.corners.toString()}",
                         style: TextStyle(color: AppColors.textGrey),
                       ),
                       Text(
-                        "Surface : 9",
+                        "Surface : ${card.userCard?.surface.toString()}",
                         style: TextStyle(color: AppColors.textGrey),
                       ),
                       Text(
-                        "Overall Grade : 9.5",
+                        "Overall Grade : ${card.userCard?.overall.toString()}",
                         style: TextStyle(color: AppColors.textGrey),
                       ),
                       SizedBox(height: 20),
