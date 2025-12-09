@@ -1,52 +1,36 @@
+import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-
-import '../../../constants/app_images.dart';
-import '../../../models/card_model.dart';
+import 'package:logger/logger.dart';
+import '../../../../network/api_provider.dart';
+import '../../../common/apputills.dart';
+import '../../../models/marketplace_response.dart';
 
 class BrowseController extends GetxController {
-  final inputFocus = FocusNode();
   final inputController = TextEditingController();
-  final isSearching = RxBool(false);
+  var marketList = <MarketList>[].obs;
+  String search = "";
+  Timer? _debounce;
 
-  final cardList = Rx<List<CardModel>>([
-    CardModel(
-      id: 1,
-      title: "Charizard",
-      price: 320,
-      image: AppImages.card,
-      owner: "Derek Watakovski",
-      ownerImage: AppImages.profile,
-    ),
-    CardModel(
-      id: 2,
-      title: "Shohei Ohtani",
-      price: 750,
-      image: AppImages.card,
-      owner: "Derek Watakovski",
-      ownerImage: AppImages.profile,
-    ),
-  ]);
-
-  final searchHistory = Rx<List<String>>([
-    "Mona Lisa",
-    "NFT",
-    "Artists",
-    "Art",
-    "Impressionists",
-    "Cubism",
-    "3D",
-    "Exhibition",
-    "NFT",
-  ]);
-
-  @override
-  void onInit() {
-    super.onInit();
-    inputFocus.addListener(() {
-      if (inputFocus.hasFocus) {
-        isSearching.value = true;
-      }
+  void onSearchChanged(String query) {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      search = query;
+      getMarketListing();
     });
+  }
+
+  Future<void> getMarketListing() async {
+    final Map<String,dynamic> body = {
+      'search':search
+    };
+    var response = await ApiProvider().home(body);
+    Logger().d(response);
+    if (response.success == true) {
+      marketList.value = response.body ?? [];
+      return;
+    } else {
+      Utils.showErrorToast(message: response.message);
+    }
   }
 }

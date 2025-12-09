@@ -44,8 +44,9 @@ class Body {
       this.id, 
       this.status, 
       this.name, 
-      this.email, 
-      this.password, 
+      this.email,
+    this.profilePicture,
+    this.password,
       this.token,});
 
   Body.fromJson(dynamic json) {
@@ -55,6 +56,7 @@ class Body {
     status = json['status'];
     name = json['name'];
     email = json['email'];
+    profilePicture = json['profilePicture'];
     password = json['password'];
     token = json['token'];
   }
@@ -64,6 +66,7 @@ class Body {
   num? status;
   String? name;
   String? email;
+  String? profilePicture;
   String? password;
   String? token;
 Body copyWith({  String? createdAt,
@@ -73,6 +76,7 @@ Body copyWith({  String? createdAt,
   String? name,
   String? email,
   String? password,
+  String? profilePicture,
   String? token,
 }) => Body(  createdAt: createdAt ?? this.createdAt,
   updatedAt: updatedAt ?? this.updatedAt,
@@ -81,6 +85,7 @@ Body copyWith({  String? createdAt,
   name: name ?? this.name,
   email: email ?? this.email,
   password: password ?? this.password,
+  profilePicture: profilePicture ?? this.profilePicture,
   token: token ?? this.token,
 );
   Map<String, dynamic> toJson() {
@@ -90,6 +95,7 @@ Body copyWith({  String? createdAt,
     map['id'] = id;
     map['status'] = status;
     map['name'] = name;
+    map['profilePicture'] = profilePicture;
     map['email'] = email;
     map['password'] = password;
     map['token'] = token;

@@ -6,10 +6,20 @@ import 'package:get/get.dart';
 import '../../../models/marketplace_response.dart';
 
 class CardDetailController extends GetxController {
-  final card = Get.arguments as MarketList;
+   Rx<MarketList> card = Rx(MarketList());
+
+  @override
+  onInit(){
+    super.onInit();
+    card.value =  Get.arguments?['cardList'] ?? MarketList();
+  }
 
   Future<void> onMessageSeller() async {
-    final chat = ChatModel(sender: card.user?.name, image: card.user?.profilePicture,id: int.parse(card.user?.id ?? "0"));
-    Get.toNamed(AppRoutes.message, arguments: chat);
+    // final chat = ChatModel(sender: card.value.user?.name, image: card.value.user?.profilePicture,id: int.parse(card.value.user?.id ?? "0"));
+    Get.toNamed(AppRoutes.message, arguments: {
+      'receiverId':card.value.user?.id ?? '',
+      'receiverImage':card.value.user?.profilePicture ?? '',
+      'receiverName':card.value.user?.name ?? '',
+    });
   }
 }

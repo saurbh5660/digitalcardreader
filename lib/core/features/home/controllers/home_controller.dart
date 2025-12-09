@@ -29,40 +29,6 @@ class HomeController extends GetxController {
     });
   }
 
- /* final cardList = Rx<List<CardModel>>([
-    CardModel(
-      id: 1,
-      title: "Charizard",
-      price: 320,
-      image: AppImages.card,
-      owner: "Derek Watakovski",
-      ownerImage: AppImages.profile,
-      rating: 9.5,
-    ),
-    CardModel(
-      id: 2,
-      title: "Shohei Ohtani",
-      price: 750,
-      image: AppImages.card,
-      owner: "Derek Watakovski",
-      ownerImage: AppImages.profile,
-      rating: 8.7,
-    ),
-  ]);
-*/
-  final searchHistory = Rx<List<String>>([
-    "Mona Lisa",
-    "NFT",
-    "Artists",
-    "Art",
-    "Impressionists",
-    "Cubism",
-    "3D",
-    "Exhibition",
-    "NFT",
-  ]);
-
-
   Future<void> getMarketListing() async {
     final Map<String,dynamic> body = {};
     var response = await ApiProvider().home(body);

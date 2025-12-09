@@ -1,9 +1,10 @@
-import 'package:digital_card_grader/core/common/common_appbar.dart';
 import 'package:digital_card_grader/core/features/browse/controllers/browse_controller.dart';
-import 'package:digital_card_grader/core/features/browse/widgets/browse_appbar.dart';
-import 'package:digital_card_grader/core/features/home/widgets/home_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../common/common_textfield.dart';
+import '../../../constants/app_colors.dart';
+import '../../../constants/app_icons.dart';
+import '../../profile/widgets/market_widget.dart';
 
 class BrowseScreen extends GetView<BrowseController> {
   const BrowseScreen({super.key});
@@ -13,62 +14,83 @@ class BrowseScreen extends GetView<BrowseController> {
     return Scaffold(
       body: Column(
         children: [
-          BrowseAppbar(),
-          Obx(() {
-            if (controller.isSearching.value) {
-              return Expanded(
-                child: ListView.separated(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  itemBuilder: (context, index) {
-                    final history = controller.searchHistory.value[index];
-                    return GestureDetector(
-                      onTap: () => controller.isSearching.value = false,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 5),
-                        child: Text(history),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => Divider(),
-                  itemCount: controller.searchHistory.value.length,
-                ),
-              );
-            }
-            return Expanded(
-              child: Padding(
-                padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
-                child: CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Text(
-                        "Recent Card Grades",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+              child:  Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Browse",
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  CommonTextfield(
+                    "Type",
+                    onChange: (query) => controller.onSearchChanged(query),
+                    showTitle: false,
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: AppColors.textGrey.withAlpha(80),
+                    ),
+                    // focusNode: controller.inputFocus,
+                    style: TextStyle(fontSize: 14),
+                    hintStyle: TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textGrey,
+                    ),
+                    prefix: Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 8),
+                      child: ImageIcon(AssetImage(AppIcons.search)),
+                    ),
+                  ),
+
+                ],
+              )
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
+              child: CustomScrollView(
+                slivers: [
+                 /* SliverToBoxAdapter(
+                    child: Text(
+                      "Cards For Sale",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Obx(() {
-                      final cardList = controller.cardList.value;
-                      return SliverGrid.builder(
-                        itemCount: cardList.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 9 / 16,
-                          mainAxisSpacing: 20,
-                          crossAxisSpacing: 10,
-                        ),
-                        itemBuilder: (context, index) => HomeCard(
-                          card: cardList[index],
-                          canOpenProfile: true,
-                        ),
-                      );
-                    }),
-                  ],
-                ),
+                  ),*/
+                  Obx(() {
+                    return SliverGrid.builder(
+                      itemCount: controller.marketList.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 9 / 16,
+                        mainAxisSpacing: 20,
+                        crossAxisSpacing: 10,
+                      ),
+                      itemBuilder: (context, index) => MarketWidget(
+                        cardList: controller.marketList[index],
+                        canOpenProfile: true,
+                      ),
+                    );
+                  }),
+                ],
               ),
-            );
-          }),
+            ),
+          )
         ],
       ),
     );

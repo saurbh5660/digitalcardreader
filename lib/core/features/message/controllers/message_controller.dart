@@ -13,11 +13,15 @@ class MessageController extends GetxController {
   RxList<dynamic> messages = <dynamic>[].obs;
   late String senderId;
   late String receiverId;
+   RxString receiverName = ''.obs;
+   RxString receiverImage = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
     receiverId = Get.arguments["receiverId"].toString();
+    receiverName.value = Get.arguments?["receiverName"] ?? '';
+    receiverImage.value = Get.arguments?["receiverImage"] ?? '';
     senderId = DbHelper()
         .getUserModel()
         ?.id
@@ -32,6 +36,7 @@ class MessageController extends GetxController {
       "senderId": senderId,
       "receiverId": receiverId,
     };
+    Logger().d(messageData);
     _socketService.getMesssages(messageData);
   }
 
