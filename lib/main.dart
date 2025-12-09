@@ -11,7 +11,6 @@ import 'package:loader_overlay/loader_overlay.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-
   runApp(DevicePreview(enabled: false, builder: (context) => const MyApp()));
 }
 

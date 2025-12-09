@@ -4,6 +4,7 @@ import 'package:digital_card_grader/core/features/chat/widgets/chat_card.dart';
 import 'package:digital_card_grader/core/features/chat/widgets/chat_searchbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../common/common_textfield.dart';
 import '../../../common/db_helper.dart';
@@ -56,8 +57,7 @@ class _ChatScreenState extends State<ChatScreen> {
         filteredChats = allChats.where((chat) {
           final bool isSender = chat['senderId'] == senderId;
           final user = isSender ? chat['receiver'] : chat['sender'];
-          final String name =
-              "${user['firstName'] ?? ''} ${user['lastName'] ?? ''}".trim();
+          final String name = user['name'] ?? '';
 
           return name.toLowerCase().contains(query.toLowerCase());
         }).toList();
@@ -97,7 +97,7 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Column(
             children: [
               CommonTextfield(
-                controller:searchController,
+                controller: searchController,
                 "Search Here..",
                 showTitle: false,
                 borderSide: BorderSide(
@@ -123,11 +123,18 @@ class _ChatScreenState extends State<ChatScreen> {
                     color: AppColors.accent,
                   ),
                 ),
-                suffix: Icon(Icons.mic, color: AppColors.textGrey, size: 25),
+                // suffix: Icon(Icons.mic, color: AppColors.textGrey, size: 25),
               ),
               Expanded(
                 child: filteredChats.isEmpty
-                    ? const Center(child: Text("No conversations found"))
+                    ? Center(
+                        child: Text(
+                          "No conversations found",
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                          color: Colors.black),
+                        ),
+                      )
                     : CustomScrollView(
                         slivers: [
                           SliverList.builder(

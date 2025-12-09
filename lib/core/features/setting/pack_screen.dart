@@ -1,5 +1,8 @@
 import 'package:digital_card_grader/core/common/common_scaffold.dart';
+import 'package:digital_card_grader/core/features/setting/controllers/pack_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import '../../common/common_appbar.dart';
 import '../../models/pack_model.dart';
 
@@ -13,6 +16,8 @@ class PacksScreen extends StatefulWidget {
 class _PacksScreenState extends State<PacksScreen> {
   final PageController _pageController = PageController(viewportFraction: 0.85);
   double _currentPage = 0.0;
+  final PacksController packController = Get.put(PacksController());
+
 
   final List<PackModel> packs = [
     PackModel(
@@ -171,9 +176,7 @@ class _PacksScreenState extends State<PacksScreen> {
             const Spacer(),
             ElevatedButton(
               onPressed: () {
-
-
-                // Add your buy logic here
+                packController.packBuy(index);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: isSelected ? Colors.blue : Colors.grey.shade400,

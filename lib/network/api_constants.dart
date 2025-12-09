@@ -23,6 +23,7 @@ class ApiConstants {
   static const String deleteAccount = "$_baseUrl/users/deleteAccount";
   static const String logout = "$_baseUrl/users/logout";
   static const String notificationOnOff = "$_baseUrl/users/notificationOnOff";
+  static const String packBuy = "$_baseUrl/users/packBuy";
 
 
 
