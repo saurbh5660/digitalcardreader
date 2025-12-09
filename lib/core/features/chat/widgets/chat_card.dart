@@ -81,6 +81,7 @@ class ChatCard extends StatelessWidget {
                         backgroundColor: AppColors.accent,
                       ),
                     ),
+
                 ],
               ),
             ),
