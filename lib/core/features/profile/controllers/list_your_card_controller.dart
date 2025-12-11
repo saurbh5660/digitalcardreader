@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 
 import '../../../../network/api_provider.dart';
 import '../../../common/apputills.dart';
+import '../../../common/db_helper.dart';
 import '../../../constants/app_images.dart';
 import '../../../constants/app_routes.dart';
 import '../../../models/card_list_response.dart';
@@ -33,7 +34,8 @@ class ListYourCardController extends GetxController {
   }
 
   Future<void> getCollection() async {
-    var response = await ApiProvider().getCollection();
+    Map<String, dynamic> data = {'id': DbHelper().getUserModel()?.id.toString()};
+    var response = await ApiProvider().getCollection(data);
     Logger().d(response);
     if (response.success == true) {
       collectionList.value = response.body ?? [];

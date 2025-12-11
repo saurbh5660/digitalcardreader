@@ -1,15 +1,11 @@
 import 'package:digital_card_grader/core/constants/app_colors.dart';
-import 'package:digital_card_grader/core/models/card_list_response.dart';
 import 'package:digital_card_grader/core/models/marketplace_response.dart';
 import 'package:digital_card_grader/network/api_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../generated/assets.dart';
-import '../../../constants/app_colors.dart';
 import '../../../constants/app_routes.dart';
-import '../../../models/collection_response.dart';
 
 class MarketWidget extends StatelessWidget {
   final MarketList cardList;

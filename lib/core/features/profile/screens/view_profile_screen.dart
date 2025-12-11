@@ -1,12 +1,12 @@
 import 'package:digital_card_grader/core/common/common_appbar.dart';
 import 'package:digital_card_grader/core/constants/app_colors.dart';
-import 'package:digital_card_grader/core/constants/app_images.dart';
 import 'package:digital_card_grader/core/features/profile/controllers/view_profile_controller.dart';
+import 'package:digital_card_grader/core/features/profile/widgets/other_card_listing_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../home/widgets/home_card.dart';
+import '../../../../generated/assets.dart';
+import '../../../../network/api_constants.dart';
 
 class ViewProfileScreen extends GetView<ViewProfileController> {
   const ViewProfileScreen({super.key});
@@ -119,14 +119,17 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                           Expanded(
                             child: Column(
                               children: [
-                                Text(
-                                  "10",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        GoogleFonts.openSans().fontFamily,
-                                  ),
+                                Obx(() {
+                                    return Text(
+                                      (controller.collectionList.isEmpty ? '0' : controller.collectionList.length.toString()),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily:
+                                            GoogleFonts.openSans().fontFamily,
+                                      ),
+                                    );
+                                  }
                                 ),
                                 SizedBox(height: 5),
                                 Text(
@@ -143,14 +146,17 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                           Expanded(
                             child: Column(
                               children: [
-                                Text(
-                                  "89",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        GoogleFonts.openSans().fontFamily,
-                                  ),
+                                Obx(() {
+                                    return Text(
+                                      (controller.cardList.isEmpty ? '0' : controller.cardList.length.toString()),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily:
+                                            GoogleFonts.openSans().fontFamily,
+                                      ),
+                                    );
+                                  }
                                 ),
                                 SizedBox(height: 5),
                                 Text(
@@ -167,15 +173,17 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                         ],
                       ),
                       SizedBox(height: 20),
-                      Text(
-                        "Michael Jordan",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontFamily: GoogleFonts.openSans().fontFamily,
-                        ),
-                      ),
-                      Text(
+                      Obx(() {
+                        return Text(
+                          controller.profile.value.name ?? '',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontFamily: GoogleFonts.openSans().fontFamily,
+                          ),
+                        );
+                      }),
+                      /* Text(
                         "San Francisco, USA",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -183,7 +191,7 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                           color: AppColors.textGrey,
                           fontFamily: GoogleFonts.openSans().fontFamily,
                         ),
-                      ),
+                      ),*/
                       SizedBox(height: 20),
                       Divider(
                         color: AppColors.textGrey.withAlpha(100),
@@ -191,17 +199,20 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                         endIndent: 20,
                       ),
                       SizedBox(height: 20),
-                      Text(
-                        "I enjoy trading cards and collecting them. Check out my collection!",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: AppColors.textGrey,
-                          fontFamily: GoogleFonts.openSans().fontFamily,
-                        ),
-                      ),
+                      Obx(() {
+                        return Text(
+                          controller.profile.value.bio ?? '',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.textGrey,
+                            fontFamily: GoogleFonts.openSans().fontFamily,
+                          ),
+                        );
+                      }),
                       SizedBox(height: 20),
-                      Column(
+                      OtherCardListingWidget(),
+                      /*Column(
                         children: [
                           Container(
                             padding: EdgeInsets.symmetric(
@@ -261,6 +272,7 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                                   .toList(),
                             ),
                           ),
+
                           Obx(() {
                             final cardList = controller.cardList.value;
                             return GridView.builder(
@@ -280,14 +292,30 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                             );
                           }),
                         ],
-                      ),
+                      ),*/
                     ],
                   ),
                 ),
-                CircleAvatar(
-                  radius: 62,
-                  backgroundImage: AssetImage(AppImages.profile),
-                ),
+                Obx(() {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(62),
+                    child: Image.network(
+                      ApiConstants.userImageUrl +
+                          (controller.profile.value.profilePicture ?? ''),
+                      width: 124,
+                      height: 124,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          Assets.imagesImagePlaceholder,
+                          width: 124,
+                          height: 124,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
+                  );
+                }),
               ],
             ),
           ),

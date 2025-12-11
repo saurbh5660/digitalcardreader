@@ -206,10 +206,13 @@ class ApiProvider {
   }
 
   Future<CollectionResponse> getCollection(
+      Map<String, dynamic> body
       ) async {
     // Utils.showLoading();
+    String queryString = Uri(queryParameters: body).query;
+    String urlWithParams = "${ApiConstants.collectionList}?$queryString";
     ApiRequest apiRequest = ApiRequest(
-      url: ApiConstants.collectionList,
+      url: urlWithParams,
       requestType: RequestType.get,
     );
     try {
@@ -227,10 +230,13 @@ class ApiProvider {
   }
 
   Future<CardListResponse> getCardList(
+      Map<String, dynamic> body
       ) async {
     // Utils.showLoading();
+    String queryString = Uri(queryParameters: body).query;
+    String urlWithParams = "${ApiConstants.cardList}?$queryString";
     ApiRequest apiRequest = ApiRequest(
-      url: ApiConstants.cardList,
+      url: urlWithParams,
       requestType: RequestType.get,
     );
     try {
@@ -290,9 +296,13 @@ class ApiProvider {
     }
   }
 
-  Future<MarketplaceResponse> getMarketPlace() async {
+  Future<MarketplaceResponse> getMarketPlace( Map<String, dynamic> body
+      ) async {
+    // Utils.showLoading();
+    String queryString = Uri(queryParameters: body).query;
+    String urlWithParams = "${ApiConstants.marketPlaceList}?$queryString";
     ApiRequest apiRequest = ApiRequest(
-      url: ApiConstants.marketPlaceList,
+      url: urlWithParams,
       requestType: RequestType.get,
     );
     try {
@@ -359,10 +369,13 @@ class ApiProvider {
   }
 
   Future<ProfileResponse> getProfile(
+      Map<String, dynamic> body
       ) async {
     Utils.showLoading();
+    String queryString = Uri(queryParameters: body).query;
+    String urlWithParams = "${ApiConstants.getProfile}?$queryString";
     ApiRequest apiRequest = ApiRequest(
-      url: ApiConstants.getProfile,
+      url: urlWithParams,
       requestType: RequestType.get,
     );
     try {

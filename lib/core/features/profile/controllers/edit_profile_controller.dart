@@ -27,7 +27,8 @@ class EditProfileController extends GetxController {
   }
 
   Future<void> getProfile() async {
-    var response = await ApiProvider().getProfile();
+    Map<String, dynamic> data = {'id': DbHelper().getUserModel()?.id.toString()};
+    var response = await ApiProvider().getProfile(data);
     Logger().d(response);
     if (response.success == true) {
       profile.value = response.body ?? ProfileData();

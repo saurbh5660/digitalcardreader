@@ -219,7 +219,7 @@ class ProfileScreen extends GetView<ProfileController> {
                           );
                         }
                       ),
-                      Text(
+                     /* Text(
                         "San Francisco, USA",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -227,7 +227,7 @@ class ProfileScreen extends GetView<ProfileController> {
                           color: AppColors.textGrey,
                           fontFamily: GoogleFonts.openSans().fontFamily,
                         ),
-                      ),
+                      ),*/
                       SizedBox(height: 20),
                       Divider(
                         color: AppColors.textGrey.withAlpha(100),

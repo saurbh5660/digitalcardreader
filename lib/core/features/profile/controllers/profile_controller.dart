@@ -1,3 +1,4 @@
+import 'package:digital_card_grader/core/common/db_helper.dart';
 import 'package:digital_card_grader/core/models/card_list_response.dart';
 import 'package:digital_card_grader/core/models/marketplace_response.dart';
 import 'package:digital_card_grader/core/models/profile_response.dart';
@@ -29,7 +30,8 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getProfile() async {
-    var response = await ApiProvider().getProfile();
+    Map<String, dynamic> data = {'id': DbHelper().getUserModel()?.id.toString()};
+    var response = await ApiProvider().getProfile(data);
     Logger().d(response);
     if (response.success == true) {
       profile.value = response.body ?? ProfileData();
@@ -40,7 +42,8 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getCollection() async {
-    var response = await ApiProvider().getCollection();
+    Map<String, dynamic> data = {'id': DbHelper().getUserModel()?.id.toString()};
+    var response = await ApiProvider().getCollection(data);
     Logger().d(response);
     if (response.success == true) {
       collectionList.value = response.body ?? [];
@@ -51,7 +54,8 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getCardListing() async {
-    var response = await ApiProvider().getCardList();
+    Map<String, dynamic> data = {'id': DbHelper().getUserModel()?.id.toString()};
+    var response = await ApiProvider().getCardList(data);
     Logger().d(response);
     if (response.success == true) {
       cardList.value = response.body ?? [];
@@ -62,7 +66,8 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getMarketListing() async {
-    var response = await ApiProvider().getMarketPlace();
+    Map<String, dynamic> data = {'id': DbHelper().getUserModel()?.id.toString()};
+    var response = await ApiProvider().getMarketPlace(data);
     Logger().d(response);
     if (response.success == true) {
       marketList.value = response.body ?? [];
