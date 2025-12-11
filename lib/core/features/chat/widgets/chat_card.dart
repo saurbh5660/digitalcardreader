@@ -1,26 +1,23 @@
 import 'package:digital_card_grader/core/constants/app_colors.dart';
 import 'package:digital_card_grader/core/constants/app_routes.dart';
-import 'package:digital_card_grader/core/models/chat_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-
 import '../../../../generated/assets.dart';
 import '../../../../network/api_constants.dart';
 import '../../../common/db_helper.dart';
 
 class ChatCard extends StatelessWidget {
   final dynamic chat;
-  const ChatCard({super.key, required this.chat});
 
+  const ChatCard({super.key, required this.chat});
 
   @override
   Widget build(BuildContext context) {
     final senderId = DbHelper().getUserModel()?.id.toString() ?? "";
     final bool isSender = chat['senderId'] == senderId;
-    final user =
-    isSender ? chat['receiver'] : chat['sender'];
+    final user = isSender ? chat['receiver'] : chat['sender'];
     final String name = user['name'] ?? '';
     final String profilePicture = user['profilePicture'] ?? "";
     final String lastMessage = chat['lastMessageIds']?['message'] ?? "";
@@ -29,31 +26,38 @@ class ChatCard extends StatelessWidget {
 
     return ListTile(
       contentPadding: EdgeInsets.only(),
-      onTap: () => Get.toNamed(AppRoutes.message, arguments: chat),
-      leading:  ClipOval(
+      onTap: () {
+        Get.toNamed(
+          AppRoutes.message,
+          arguments: {
+            'receiverId': user['id'] ?? "",
+            'receiverImage': user['profilePicture'] ?? "",
+            'receiverName': user['name'] ?? '',
+          },
+        );
+      },
+      leading: ClipOval(
         child: profilePicture.isNotEmpty
             ? Image.network(
-          ApiConstants.userImageUrl +
-              profilePicture,
-          height: 66,
-          width: 66,
-          fit: BoxFit.cover,
-          errorBuilder:
-              (context, error, stackTrace) {
-            return Image.asset(
-              Assets.imagesImagePlaceholder,
-              height: 66,
-              width: 66,
-              fit: BoxFit.cover,
-            );
-          },
-        )
+                ApiConstants.userImageUrl + profilePicture,
+                height: 66,
+                width: 66,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                    Assets.imagesImagePlaceholder,
+                    height: 66,
+                    width: 66,
+                    fit: BoxFit.cover,
+                  );
+                },
+              )
             : Image.asset(
-          Assets.imagesImagePlaceholder,
-          height: 66,
-          width: 66,
-          fit: BoxFit.cover,
-        ),
+                Assets.imagesImagePlaceholder,
+                height: 66,
+                width: 66,
+                fit: BoxFit.cover,
+              ),
       ),
       title: ColoredBox(
         color: AppColors.transparent,
@@ -74,9 +78,10 @@ class ChatCard extends StatelessWidget {
                       child: Badge(
                         label: Padding(
                           padding: const EdgeInsets.all(1.0),
-                          child: Text(unreadCount.toString(),style: GoogleFonts.poppins(
-                            fontSize: 11,
-                          ),),
+                          child: Text(
+                            unreadCount.toString(),
+                            style: GoogleFonts.poppins(fontSize: 11),
+                          ),
                         ),
                         backgroundColor: AppColors.accent,
                       ),

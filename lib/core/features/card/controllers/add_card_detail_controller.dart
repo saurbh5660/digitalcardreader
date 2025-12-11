@@ -56,7 +56,7 @@ class AddCardDetailController extends GetxController {
   }*/
 
   Future<void> getCollection() async {
-    Map<String, dynamic> data = {'id': DbHelper().getUserModel()?.id.toString()};
+    Map<String, dynamic> data = {'userId': DbHelper().getUserModel()?.id.toString()};
     var response = await ApiProvider().getCollection(data);
     Logger().d(response);
     if (response.success == true) {

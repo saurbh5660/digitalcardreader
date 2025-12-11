@@ -26,11 +26,11 @@ class ProfileScreen extends GetView<ProfileController> {
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500),
           ),
           subtitle: GestureDetector(
-            onTap: () async{
-             final result = await Get.toNamed(AppRoutes.editProfile);
-             if(result != null){
-               controller.getProfile();
-             }
+            onTap: () async {
+              final result = await Get.toNamed(AppRoutes.editProfile);
+              if (result != null) {
+                controller.getProfile();
+              }
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -54,7 +54,10 @@ class ProfileScreen extends GetView<ProfileController> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.5),
             child: IconButton(
-              onPressed: () => Get.toNamed(AppRoutes.setting),
+              onPressed: () async {
+                await Get.toNamed(AppRoutes.setting);
+                controller.getProfile();
+              },
               icon: Icon(
                 CupertinoIcons.settings,
                 color: AppColors.black,
@@ -130,15 +133,18 @@ class ProfileScreen extends GetView<ProfileController> {
                           Expanded(
                             child: Column(
                               children: [
-                                Text(
-                                  "2K",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        GoogleFonts.openSans().fontFamily,
-                                  ),
-                                ),
+                                Obx(() {
+                                  return Text(
+                                    (controller.profile.value.friendsCount ?? 0)
+                                        .toString(),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily:
+                                          GoogleFonts.openSans().fontFamily,
+                                    ),
+                                  );
+                                }),
                                 SizedBox(height: 5),
                                 Text(
                                   "Friends",
@@ -155,17 +161,19 @@ class ProfileScreen extends GetView<ProfileController> {
                             child: Column(
                               children: [
                                 Obx(() {
-                                    return Text(
-                                      (controller.collectionList.isEmpty ? '0' : controller.collectionList.length.toString()),
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily:
-                                            GoogleFonts.openSans().fontFamily,
-                                      ),
-                                    );
-                                  }
-                                ),
+                                  return Text(
+                                    (controller.collectionList.isEmpty
+                                        ? '0'
+                                        : controller.collectionList.length
+                                              .toString()),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily:
+                                          GoogleFonts.openSans().fontFamily,
+                                    ),
+                                  );
+                                }),
                                 SizedBox(height: 5),
                                 Text(
                                   "Collection",
@@ -182,17 +190,19 @@ class ProfileScreen extends GetView<ProfileController> {
                             child: Column(
                               children: [
                                 Obx(() {
-                                    return Text(
-                                      (controller.cardList.isEmpty ? '0' : controller.cardList.length.toString()),
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily:
-                                            GoogleFonts.openSans().fontFamily,
-                                      ),
-                                    );
-                                  }
-                                ),
+                                  return Text(
+                                    (controller.cardList.isEmpty
+                                        ? '0'
+                                        : controller.cardList.length
+                                              .toString()),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily:
+                                          GoogleFonts.openSans().fontFamily,
+                                    ),
+                                  );
+                                }),
                                 SizedBox(height: 5),
                                 Text(
                                   "Cards",
@@ -209,25 +219,26 @@ class ProfileScreen extends GetView<ProfileController> {
                       ),
                       SizedBox(height: 20),
                       Obx(() {
-                          return Text(
-                            controller.profile.value.name ?? '',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontFamily: GoogleFonts.openSans().fontFamily,
-                            ),
-                          );
-                        }
-                      ),
-                     /* Text(
-                        "San Francisco, USA",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: AppColors.textGrey,
-                          fontFamily: GoogleFonts.openSans().fontFamily,
-                        ),
-                      ),*/
+                        return Text(
+                          controller.profile.value.name ?? '',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontFamily: GoogleFonts.openSans().fontFamily,
+                          ),
+                        );
+                      }),
+                      Obx(() {
+                        return Text(
+                          'Credits: ${controller.profile.value.myCredits ?? 0}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.textGrey,
+                            fontFamily: GoogleFonts.openSans().fontFamily,
+                          ),
+                        );
+                      }),
                       SizedBox(height: 20),
                       Divider(
                         color: AppColors.textGrey.withAlpha(100),
@@ -236,42 +247,41 @@ class ProfileScreen extends GetView<ProfileController> {
                       ),
                       SizedBox(height: 20),
                       Obx(() {
-                          return Text(
-                            controller.profile.value.bio ?? '',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: AppColors.textGrey,
-                              fontFamily: GoogleFonts.openSans().fontFamily,
-                            ),
-                          );
-                        }
-                      ),
+                        return Text(
+                          controller.profile.value.bio ?? '',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.textGrey,
+                            fontFamily: GoogleFonts.openSans().fontFamily,
+                          ),
+                        );
+                      }),
                       SizedBox(height: 20),
                       CardListingWidget(),
                     ],
                   ),
                 ),
                 Obx(() {
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(62),
-                      child: Image.network(
-                        ApiConstants.userImageUrl+(controller.profile.value.profilePicture ?? ''),
-                        width: 124,
-                        height: 124,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Image.asset(
-                            Assets.imagesImagePlaceholder,
-                              width: 124,
-                              height: 124,
-                              fit: BoxFit.cover,
-                          );
-                        },
-                      ),
-                    );
-                  }
-                )
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(62),
+                    child: Image.network(
+                      ApiConstants.userImageUrl +
+                          (controller.profile.value.profilePicture ?? ''),
+                      width: 124,
+                      height: 124,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          Assets.imagesImagePlaceholder,
+                          width: 124,
+                          height: 124,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
+                  );
+                }),
               ],
             ),
           ),

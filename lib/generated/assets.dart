@@ -12,6 +12,7 @@ class Assets {
   static const String iconsScan = 'assets/icons/scan.png';
   static const String iconsSearch = 'assets/icons/search.png';
   static const String imagesAuthGraphic = 'assets/images/auth_graphic.png';
+  static const String imagesBrozeBorder = 'assets/images/broze_border.png';
   static const String imagesCard = 'assets/images/card.png';
   static const String imagesHeaderCards = 'assets/images/header_cards.png';
   static const String imagesImagePlaceholder = 'assets/images/image_placeholder.png';

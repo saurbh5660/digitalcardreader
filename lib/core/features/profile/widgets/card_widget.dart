@@ -29,7 +29,53 @@ class CardWidget extends StatelessWidget {
         color: AppColors.white,
         child: Column(
           children: [
-            Expanded(
+           /* Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(27),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.textGrey.withAlpha(80),
+                      offset: Offset(0, 1.5),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Stack(
+                    children: [
+
+                      /// ---- CARD IMAGE AT BACKGROUND ----
+                      Positioned.fill(
+                        child: cardList.imagePath != null
+                            ? Image.network(
+                          ApiConstants.userImageUrl + cardList.imagePath!,
+                          fit: BoxFit.cover,
+                        )
+                            : Container(
+                          color: AppColors.card,
+                          child: Icon(
+                            Icons.collections,
+                            size: 40,
+                            color: AppColors.textGrey,
+                          ),
+                        ),
+                      ),
+
+                      /// ---- FRAME BORDER PNG ON TOP ----
+                      Positioned.fill(
+                        child: Image.asset(
+                          Assets.imagesBrozeBorder,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),*/
+
+             Expanded(
               child: Container(
                 decoration: BoxDecoration(
                   color: AppColors.white,

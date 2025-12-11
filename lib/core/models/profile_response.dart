@@ -46,7 +46,11 @@ class ProfileData {
       this.deviceToken, 
       this.deviceType, 
       this.bio, 
-      this.otpVerify, 
+      this.friendsCount,
+      this.packType,
+      this.iFollow,
+      this.myCredits,
+      this.otpVerify,
       this.socketId, 
       this.isOnline,});
 
@@ -67,7 +71,11 @@ class ProfileData {
     deviceType = json['deviceType'];
     bio = json['bio'];
     otpVerify = json['otpVerify'];
+    myCredits = json['myCredits'];
+    packType = json['packType'];
+    friendsCount = json['friendsCount'];
     socketId = json['socketId'];
+    iFollow = json['iFollow'];
     isOnline = json['isOnline'];
   }
   String? id;
@@ -75,8 +83,12 @@ class ProfileData {
   String? updatedAt;
   int? status;
   int? role;
+  int? iFollow;
   String? customerId;
   String? name;
+  int? myCredits;
+  int? friendsCount;
+  String? packType;
   String? email;
   String? password;
   dynamic profilePicture;
@@ -106,8 +118,12 @@ class ProfileData {
     map['deviceToken'] = deviceToken;
     map['deviceType'] = deviceType;
     map['bio'] = bio;
+    map['myCredits'] = myCredits;
+    map['packType'] = packType;
     map['otpVerify'] = otpVerify;
+    map['friendsCount'] = friendsCount;
     map['socketId'] = socketId;
+    map['iFollow'] = iFollow;
     map['isOnline'] = isOnline;
     return map;
   }

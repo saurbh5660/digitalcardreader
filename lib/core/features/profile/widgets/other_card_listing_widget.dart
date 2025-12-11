@@ -65,7 +65,7 @@ class OtherCardListingWidget extends GetView<ViewProfileController> {
         Obx(() {
           if (controller.isCurrentListEmpty) {
             return Padding(
-              padding: EdgeInsets.only(top: 100),
+              padding: EdgeInsets.only(top: 150,bottom: 300),
               child: Text(
                 getEmptyMessage(controller.selectedIndex.value),
                 style: TextStyle(

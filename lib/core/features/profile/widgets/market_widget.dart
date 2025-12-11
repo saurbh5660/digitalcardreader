@@ -29,6 +29,62 @@ class MarketWidget extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(27),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.textGrey.withAlpha(80),
+                      offset: Offset(0, 1.5),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child:
+                  AspectRatio(
+                    aspectRatio: 0.80,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+
+                        /// BORDER PNG - ALWAYS visible & fills entire card
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Positioned.fill(
+                            child: Image.asset(
+                              Assets.imagesBrozeBorder,
+                              fit: BoxFit.fill,   // IMPORTANT
+                            ),
+                          ),
+                        ),
+
+                        /// CARD IMAGE - placed inside the border window
+                        Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 44.0),
+                            child: FractionallySizedBox(
+                              widthFactor: 0.72,
+                              heightFactor: 0.76,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.network(
+                                  ApiConstants.userImageUrl + (cardList.userCard?.imagePath ?? ''),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+
+                ),
+              ),
+            ),
+           /* Expanded(
+              child: Container(
+                decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(27),
                   boxShadow: [
@@ -69,7 +125,7 @@ class MarketWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
+            ),*/
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(
@@ -115,7 +171,7 @@ class MarketWidget extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           if (canOpenProfile) {
-                            Get.toNamed(AppRoutes.viewProfile);
+                            Get.toNamed(AppRoutes.viewProfile,arguments: {"id":cardList.user?.id.toString()});
                           }
                         },
                         child: ClipRRect(

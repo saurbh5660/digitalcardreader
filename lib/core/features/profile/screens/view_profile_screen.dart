@@ -47,7 +47,9 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              controller.followUnfollow();
+                            },
                             style: TextButton.styleFrom(
                               foregroundColor: AppColors.white,
                               backgroundColor: AppColors.swatch,
@@ -57,14 +59,18 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                                 borderRadius: BorderRadius.circular(5),
                               ),
                             ),
-                            child: Text(
-                              "Follow",
-                              style: TextStyle(
-                                fontFamily: GoogleFonts.openSans().fontFamily,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
+                            child: Obx(() {
+                              return Text(
+                                controller.profile.value.iFollow == 1
+                                    ? "UnFollow"
+                                    : "Follow",
+                                style: TextStyle(
+                                  fontFamily: GoogleFonts.openSans().fontFamily,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              );
+                            }),
                           ),
                           SizedBox(width: 10),
                           TextButton(
@@ -95,15 +101,18 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                           Expanded(
                             child: Column(
                               children: [
-                                Text(
-                                  "2K",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        GoogleFonts.openSans().fontFamily,
-                                  ),
-                                ),
+                                Obx(() {
+                                  return Text(
+                                    (controller.profile.value.friendsCount ?? 0)
+                                        .toString(),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily:
+                                          GoogleFonts.openSans().fontFamily,
+                                    ),
+                                  );
+                                }),
                                 SizedBox(height: 5),
                                 Text(
                                   "Friends",
@@ -120,17 +129,19 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                             child: Column(
                               children: [
                                 Obx(() {
-                                    return Text(
-                                      (controller.collectionList.isEmpty ? '0' : controller.collectionList.length.toString()),
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily:
-                                            GoogleFonts.openSans().fontFamily,
-                                      ),
-                                    );
-                                  }
-                                ),
+                                  return Text(
+                                    (controller.collectionList.isEmpty
+                                        ? '0'
+                                        : controller.collectionList.length
+                                              .toString()),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily:
+                                          GoogleFonts.openSans().fontFamily,
+                                    ),
+                                  );
+                                }),
                                 SizedBox(height: 5),
                                 Text(
                                   "Collection",
@@ -147,17 +158,19 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                             child: Column(
                               children: [
                                 Obx(() {
-                                    return Text(
-                                      (controller.cardList.isEmpty ? '0' : controller.cardList.length.toString()),
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily:
-                                            GoogleFonts.openSans().fontFamily,
-                                      ),
-                                    );
-                                  }
-                                ),
+                                  return Text(
+                                    (controller.cardList.isEmpty
+                                        ? '0'
+                                        : controller.cardList.length
+                                              .toString()),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily:
+                                          GoogleFonts.openSans().fontFamily,
+                                    ),
+                                  );
+                                }),
                                 SizedBox(height: 5),
                                 Text(
                                   "Cards",

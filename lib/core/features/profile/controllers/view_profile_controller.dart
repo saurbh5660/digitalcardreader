@@ -35,7 +35,7 @@ class ViewProfileController extends GetxController {
   }
 
   Future<void> getProfile() async {
-    Map<String, dynamic> data = {'id': id};
+    Map<String, dynamic> data = {'userId': id};
     var response = await ApiProvider().getProfile(data);
     Logger().d(response);
     if (response.success == true) {
@@ -47,7 +47,7 @@ class ViewProfileController extends GetxController {
   }
 
   Future<void> getCollection() async {
-    Map<String, dynamic> data = {'id': id};
+    Map<String, dynamic> data = {'userId': id};
     var response = await ApiProvider().getCollection(data);
     Logger().d(response);
     if (response.success == true) {
@@ -59,7 +59,7 @@ class ViewProfileController extends GetxController {
   }
 
   Future<void> getCardListing() async {
-    Map<String, dynamic> data = {'id': id};
+    Map<String, dynamic> data = {'userId': id};
     var response = await ApiProvider().getCardList(data);
     Logger().d(response);
     if (response.success == true) {
@@ -71,7 +71,7 @@ class ViewProfileController extends GetxController {
   }
 
   Future<void> getMarketListing() async {
-    Map<String, dynamic> data = {'id': id};
+    Map<String, dynamic> data = {'userId': id};
     var response = await ApiProvider().getMarketPlace(data);
     Logger().d(response);
     if (response.success == true) {
@@ -117,5 +117,24 @@ class ViewProfileController extends GetxController {
         'receiverName': profile.value.name ?? '',
       },
     );
+  }
+
+  Future<void> followUnfollow() async {
+    int newStatus = 0;
+    final iFollow = profile.value.iFollow;
+    if (iFollow == 0) {
+      newStatus = 1;
+    } else if (iFollow == 1) {
+      newStatus = 0;
+    } else {
+      newStatus = 0;
+    }
+    Map<String, dynamic> data = {"followingId": profile.value.id.toString()};
+    var response = await ApiProvider().followUnfollow(data);
+    if (response.success == true) {
+      profile.value.iFollow = newStatus;
+    } else {
+      Utils.showToast(message: response.message);
+    }
   }
 }

@@ -50,7 +50,7 @@ class AddCollectionImageScreen extends GetView<AddCollectionController> {
                             ),
                             child: Obx(() {
                               final image = controller.collectionImage.value;
-                              if (image != null) {
+                              if (image.isNotEmpty) {
                                 return Image.file(
                                   File(image),
                                   fit: BoxFit.cover,

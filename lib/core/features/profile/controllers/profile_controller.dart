@@ -18,7 +18,6 @@ class ProfileController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
     getProfile();
     getCollection();
     getCardListing();
@@ -30,7 +29,7 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getProfile() async {
-    Map<String, dynamic> data = {'id': DbHelper().getUserModel()?.id.toString()};
+    Map<String, dynamic> data = {'userId': DbHelper().getUserModel()?.id.toString()};
     var response = await ApiProvider().getProfile(data);
     Logger().d(response);
     if (response.success == true) {
@@ -42,7 +41,7 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getCollection() async {
-    Map<String, dynamic> data = {'id': DbHelper().getUserModel()?.id.toString()};
+    Map<String, dynamic> data = {'userId': DbHelper().getUserModel()?.id.toString()};
     var response = await ApiProvider().getCollection(data);
     Logger().d(response);
     if (response.success == true) {
@@ -54,7 +53,7 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getCardListing() async {
-    Map<String, dynamic> data = {'id': DbHelper().getUserModel()?.id.toString()};
+    Map<String, dynamic> data = {'userId': DbHelper().getUserModel()?.id.toString()};
     var response = await ApiProvider().getCardList(data);
     Logger().d(response);
     if (response.success == true) {
@@ -66,7 +65,7 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getMarketListing() async {
-    Map<String, dynamic> data = {'id': DbHelper().getUserModel()?.id.toString()};
+    Map<String, dynamic> data = {'userId': DbHelper().getUserModel()?.id.toString()};
     var response = await ApiProvider().getMarketPlace(data);
     Logger().d(response);
     if (response.success == true) {

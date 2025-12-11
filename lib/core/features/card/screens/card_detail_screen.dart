@@ -1,11 +1,8 @@
-import 'package:digital_card_grader/core/common/common_appbar.dart';
 import 'package:digital_card_grader/core/common/common_button.dart';
 import 'package:digital_card_grader/core/constants/app_colors.dart';
 import 'package:digital_card_grader/core/features/card/controllers/card_detail_controller.dart';
-import 'package:digital_card_grader/core/models/marketplace_response.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../network/api_constants.dart';
 import '../../../common/wide_indicator.dart';
 
