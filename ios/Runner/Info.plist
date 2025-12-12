@@ -51,5 +51,7 @@
 	<string>Allow user to select the take photo from camera</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow user to select the take photo from camera</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>We need permission to save scanned images to the gallery.</string>
 </dict>
 </plist>
