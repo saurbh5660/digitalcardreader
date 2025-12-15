@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import '../../generated/assets.dart';
+
 extension StringCasingExtension on String {
   String toCapitalized() =>
       length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
@@ -515,6 +517,17 @@ class Utils {
         lower.endsWith(".gif") ||
         lower.endsWith(".webp");
   }
+
+  static String getBorderImage(num grade) {
+    if (grade <= 8.0) {
+      return Assets.imagesBronzeBorder;
+    } else if (grade > 8.0 && grade <= 9.0) {
+      return Assets.imagesSilverBorder;
+    } else {
+      return Assets.imagesGoldBorder;
+    }
+  }
+
 }
 
 class StringColorPair {

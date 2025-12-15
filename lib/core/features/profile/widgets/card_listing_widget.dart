@@ -96,7 +96,7 @@ class CardListingWidget extends GetView<ProfileController> {
                 case 0: // Collections
                   return CollectionCard(collection: item as CollectionBody);
                 case 1: // Cards
-                  return CardWidget(cardList: item as CardList);
+                  return CardWidget(cardList: item as CardList,isMyProfile: true,);
                 case 2: // Listings
                   return MarketWidget(cardList: item as MarketList);
 

@@ -12,12 +12,17 @@ class Assets {
   static const String iconsScan = 'assets/icons/scan.png';
   static const String iconsSearch = 'assets/icons/search.png';
   static const String imagesAuthGraphic = 'assets/images/auth_graphic.png';
-  static const String imagesBrozeBorder = 'assets/images/broze_border.png';
+  static const String imagesBronzeBorder = 'assets/images/bronze_border.png';
+  static const String imagesBronzeLimitedBorder = 'assets/images/bronze_limited_border.png';
   static const String imagesCard = 'assets/images/card.png';
+  static const String imagesGoldBorder = 'assets/images/gold_border.png';
+  static const String imagesGoldLimitedBorder = 'assets/images/gold_limited_border.png';
   static const String imagesHeaderCards = 'assets/images/header_cards.png';
   static const String imagesImagePlaceholder = 'assets/images/image_placeholder.png';
   static const String imagesOnboarding = 'assets/images/onboarding.png';
   static const String imagesProfile = 'assets/images/profile.jpg';
+  static const String imagesSilverBorder = 'assets/images/silver_border.png';
+  static const String imagesSilverLimitedBorder = 'assets/images/silver_limited_border.png';
   static const String imagesSuccess = 'assets/images/success.png';
 
 }

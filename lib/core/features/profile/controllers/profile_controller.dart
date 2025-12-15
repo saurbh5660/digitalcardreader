@@ -1,7 +1,13 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:digital_card_grader/core/common/db_helper.dart';
 import 'package:digital_card_grader/core/models/card_list_response.dart';
 import 'package:digital_card_grader/core/models/marketplace_response.dart';
 import 'package:digital_card_grader/core/models/profile_response.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import '../../../../network/api_provider.dart';
@@ -90,6 +96,7 @@ class ProfileController extends GetxController {
     }
   }
 
+
   // Check if current list is empty
   bool get isCurrentListEmpty {
     switch (selectedIndex.value) {
@@ -103,4 +110,106 @@ class ProfileController extends GetxController {
         return true;
     }
   }
+
+
+  bool evaluateWin(int number) {
+    // int pack = int.parse(profile.value.packType ?? "0");
+    int pack = 3;
+
+    if (pack == 0) return false; // Not allowed
+    if (pack == 3) return true; // 100% win
+
+    double probability = 0.0;
+
+    if (pack == 1) probability = 0.05; // 5%
+    if (pack == 2) probability = 0.50; // 50%
+
+    double randomValue = Random().nextDouble();
+    return randomValue < probability;
+  }
+
+  Future<void> showFortuneWheelDialog(
+      BuildContext context, Function(int) onSpin) async {
+    StreamController<int> selected = StreamController<int>();
+
+    // Wheel slices
+    final sections = [
+      "0–10",
+      "11–25",
+      "26–40",
+      "41–55",
+      "56–70",
+      "71–85",
+      "86–95",
+      "96–100"
+    ];
+
+    // Mapped ranges
+    final List<List<int>> ranges = [
+      [0, 10],
+      [11, 25],
+      [26, 40],
+      [41, 55],
+      [56, 70],
+      [71, 85],
+      [86, 95],
+      [96, 100],
+    ];
+
+
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (_) {
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: Container(
+            padding: EdgeInsets.all(16),
+            height: 420,
+            child: Column(
+              children: [
+                Text(
+                  "🎡 Spin the Wheel!",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+                SizedBox(height: 14),
+
+                Expanded(
+                  child: FortuneWheel(
+                    selected: selected.stream,
+                    items: [
+                      for (var label in sections)
+                        FortuneItem(
+                          child: Text(label, style: TextStyle(fontSize: 14)),
+                        )
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 20),
+
+                ElevatedButton(
+                  onPressed: () {
+                    int randomIndex = Fortune.randomInt(0, 101);
+                    selected.add(randomIndex);
+
+                    Future.delayed(Duration(seconds: 3), () {
+                      Navigator.pop(context);
+                      onSpin(randomIndex);
+                    });
+                  },
+                  child: Text("SPIN NOW"),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
 }

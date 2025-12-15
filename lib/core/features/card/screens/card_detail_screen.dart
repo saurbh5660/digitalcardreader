@@ -3,7 +3,9 @@ import 'package:digital_card_grader/core/constants/app_colors.dart';
 import 'package:digital_card_grader/core/features/card/controllers/card_detail_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../network/api_constants.dart';
+import '../../../common/apputills.dart';
 import '../../../common/wide_indicator.dart';
 
 class CardDetailScreen extends GetView<CardDetailController> {
@@ -277,13 +279,69 @@ class CardDetailScreen extends GetView<CardDetailController> {
             children: [
               /// ------------------- CARD IMAGE -------------------
               Center(
-                child: Image.network(
+                child:
+                AspectRatio(
+                  aspectRatio: 0.80,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      /// BORDER PNG - ALWAYS visible & fills entire card
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Positioned.fill(
+                          child: Image.asset(
+                            Utils.getBorderImage(isFront ? (card.userCard?.overall ?? 0.0) : (card.userCard?.backOverall ?? 0.0)),
+                            // Utils.getBorderImage(8.25),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+
+                      /// CARD IMAGE - placed inside the border window
+                      Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 65.0),
+                          child: FractionallySizedBox(
+                            widthFactor: 0.72,
+                            heightFactor: 0.76,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                isFront
+
+                                    ? '${ApiConstants.userImageUrl}${card.userCard?.imagePath ?? ''}'
+                                    : '${ApiConstants.userImageUrl}${card.userCard?.backImagePath ?? ''}',
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
+                        top: 49,
+                        right: 58,
+                        child: Text(
+                          isFront ? (card.userCard?.overall ?? '0.0').toString()
+                          : (card.userCard?.backOverall ?? '0.0').toString(),
+                          style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              /*  Image.network(
                   isFront
                       ? '${ApiConstants.userImageUrl}${card.userCard?.imagePath ?? ''}'
                       : '${ApiConstants.userImageUrl}${card.userCard?.backImagePath ?? ''}',
                   width: MediaQuery.of(context).size.width * 0.6,
                   errorBuilder: (_, __, ___) => const SizedBox(),
-                ),
+                ),*/
               ),
 
               const SizedBox(height: 20),

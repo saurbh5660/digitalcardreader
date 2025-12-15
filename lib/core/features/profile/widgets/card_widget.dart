@@ -6,21 +6,38 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../generated/assets.dart';
+import '../../../common/apputills.dart';
 import '../../../constants/app_colors.dart';
 import '../../../models/collection_response.dart';
+import '../controllers/profile_controller.dart';
 
 class CardWidget extends StatelessWidget {
   final CardList cardList;
   final bool canOpenProfile;
+  final bool isMyProfile;
 
-  const CardWidget({super.key, required this.cardList, this.canOpenProfile = false});
+  const CardWidget({super.key, required this.cardList, this.canOpenProfile = false,this.isMyProfile = false});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Add navigation to collection detail if needed
         // Get.toNamed(AppRoutes.collectionDetail, arguments: collection);
+        if(isMyProfile){
+          final controller = Get.find<ProfileController>();
+          controller.showFortuneWheelDialog(
+            context,
+                (result) {
+              bool won = controller.evaluateWin(result);
+
+              if (won) {
+                Utils.showToast(message: "🎉 You won! Number: $result");
+              } else {
+                Utils.showErrorToast(message: "😢 Try again! Number: $result");
+              }
+            },
+          );
+        }
       },
       child: Card(
         shape: RoundedRectangleBorder(
@@ -29,7 +46,7 @@ class CardWidget extends StatelessWidget {
         color: AppColors.white,
         child: Column(
           children: [
-           /* Expanded(
+            Expanded(
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(27),
@@ -41,41 +58,64 @@ class CardWidget extends StatelessWidget {
                   ],
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Stack(
-                    children: [
-
-                      /// ---- CARD IMAGE AT BACKGROUND ----
-                      Positioned.fill(
-                        child: cardList.imagePath != null
-                            ? Image.network(
-                          ApiConstants.userImageUrl + cardList.imagePath!,
-                          fit: BoxFit.cover,
-                        )
-                            : Container(
-                          color: AppColors.card,
-                          child: Icon(
-                            Icons.collections,
-                            size: 40,
-                            color: AppColors.textGrey,
+                    borderRadius: BorderRadius.circular(20),
+                    child:
+                    AspectRatio(
+                      aspectRatio: 0.80,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          /// BORDER PNG - ALWAYS visible & fills entire card
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Positioned.fill(
+                              child: Image.asset(
+                                Utils.getBorderImage(cardList.overall ?? 0.0),
+                                // Utils.getBorderImage(8.25),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
 
-                      /// ---- FRAME BORDER PNG ON TOP ----
-                      Positioned.fill(
-                        child: Image.asset(
-                          Assets.imagesBrozeBorder,
-                          fit: BoxFit.fill,
-                        ),
+                          /// CARD IMAGE - placed inside the border window
+                          Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 44.0),
+                              child: FractionallySizedBox(
+                                widthFactor: 0.72,
+                                heightFactor: 0.76,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(
+                                    ApiConstants.userImageUrl + (cardList.imagePath ?? ''),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Positioned(
+                            top: 31,
+                            right: 32,
+                            child: Text(
+                              (cardList.overall ?? '0.0').toString(),
+                              style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: 7,
+                                  fontWeight: FontWeight.w600
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    )
+
                 ),
               ),
-            ),*/
-
-             Expanded(
+            ),
+           /*  Expanded(
               child: Container(
                 decoration: BoxDecoration(
                   color: AppColors.white,
@@ -118,7 +158,7 @@ class CardWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
+            ),*/
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(

@@ -24,14 +24,12 @@ class CardGradingController extends GetxController {
   }
 
   Future<void> onContinue() async {
-    Get.until((_) => Get.currentRoute == AppRoutes.dashboard);
     Get.offNamed(
       AppRoutes.success,
       arguments: {
         "title": "Your AI card grading was successful",
         "onPressed": () {
-          Get.until(
-                (route) =>
+          Get.until((route) =>
             Get.currentRoute == AppRoutes.dashboard,
           );
           Get.find<DashboardController>().onChangeIndex(

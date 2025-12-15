@@ -5,7 +5,6 @@ import 'package:logger/logger.dart';
 
 class CardScannerUtils {
   const CardScannerUtils._();
-
   static Future<File?> scanFromCamera() async {
     try {
       final result = await FlutterDocScanner().getScannedDocumentAsImages(page: 1);
