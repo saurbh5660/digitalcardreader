@@ -23,21 +23,22 @@ class CardWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // Get.toNamed(AppRoutes.collectionDetail, arguments: collection);
-        if(isMyProfile){
+       /* if(isMyProfile){
           final controller = Get.find<ProfileController>();
           controller.showFortuneWheelDialog(
             context,
                 (result) {
               bool won = controller.evaluateWin(result);
-
               if (won) {
                 Utils.showToast(message: "🎉 You won! Number: $result");
+                controller.limitedBorder(1);
               } else {
+                controller.limitedBorder(0);
                 Utils.showErrorToast(message: "😢 Try again! Number: $result");
               }
             },
           );
-        }
+        }*/
       },
       child: Card(
         shape: RoundedRectangleBorder(
@@ -70,7 +71,7 @@ class CardWidget extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: Positioned.fill(
                               child: Image.asset(
-                                Utils.getBorderImage(cardList.overall ?? 0.0),
+                                Utils.getBorderImage(cardList.overall ?? 0.0,cardList.user?.hasLimited ?? 0),
                                 // Utils.getBorderImage(8.25),
                                 fit: BoxFit.fill,
                               ),

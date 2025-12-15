@@ -48,7 +48,9 @@ class ProfileData {
       this.bio, 
       this.friendsCount,
       this.packType,
-      this.iFollow,
+      this.isFollow,
+      this.hasLimited,
+      this.packUsed,
       this.myCredits,
       this.otpVerify,
       this.socketId, 
@@ -73,9 +75,11 @@ class ProfileData {
     otpVerify = json['otpVerify'];
     myCredits = json['myCredits'];
     packType = json['packType'];
+    hasLimited = json['hasLimited'];
+    packUsed = json['packUsed'];
     friendsCount = json['friendsCount'];
     socketId = json['socketId'];
-    iFollow = json['iFollow'];
+    isFollow = json['isFollow'];
     isOnline = json['isOnline'];
   }
   String? id;
@@ -83,10 +87,12 @@ class ProfileData {
   String? updatedAt;
   int? status;
   int? role;
-  int? iFollow;
+  int? isFollow;
   String? customerId;
   String? name;
   int? myCredits;
+  int? hasLimited;
+  int? packUsed;
   int? friendsCount;
   String? packType;
   String? email;
@@ -119,11 +125,13 @@ class ProfileData {
     map['deviceType'] = deviceType;
     map['bio'] = bio;
     map['myCredits'] = myCredits;
+    map['hasLimited'] = hasLimited;
+    map['packUsed'] = packUsed;
     map['packType'] = packType;
     map['otpVerify'] = otpVerify;
     map['friendsCount'] = friendsCount;
     map['socketId'] = socketId;
-    map['iFollow'] = iFollow;
+    map['isFollow'] = isFollow;
     map['isOnline'] = isOnline;
     return map;
   }

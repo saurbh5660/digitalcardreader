@@ -64,7 +64,6 @@ class _ChatScreenState extends State<ChatScreen> {
       });
     }
   }
-
   String formatTime(String time) {
     try {
       DateTime dateTime = DateTime.parse(time).toLocal();
@@ -73,7 +72,6 @@ class _ChatScreenState extends State<ChatScreen> {
       return "";
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

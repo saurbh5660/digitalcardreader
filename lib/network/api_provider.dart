@@ -536,6 +536,28 @@ class ApiProvider {
     }
   }
 
+  Future<CommonResponse> limitedBorder(Map<String, dynamic> body) async {
+    Utils.showLoading();
+    ApiRequest apiRequest = ApiRequest(
+      url: ApiConstants.limitedBorder,
+      requestType: RequestType.post,
+      body: body,
+    );
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      Utils.hideLoading();
+      return CommonResponse.fromJson(response);
+    } catch (e, stackTrace) {
+      Logger().e("Error: ${e.toString()} \nStackTrace: $stackTrace");
+      Utils.hideLoading();
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return CommonResponse.fromJson(res?.data);
+      }
+      return CommonResponse(message: e.toString());
+    }
+  }
+
   static Future<dio.MultipartFile> getMultipartImage({
     required String path,
   }) async {

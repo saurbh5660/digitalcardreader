@@ -61,7 +61,7 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                             ),
                             child: Obx(() {
                               return Text(
-                                controller.profile.value.iFollow == 1
+                                controller.followStatus.value == 1
                                     ? "UnFollow"
                                     : "Follow",
                                 style: TextStyle(

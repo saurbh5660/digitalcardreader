@@ -25,6 +25,7 @@ class ApiConstants {
   static const String notificationOnOff = "$_baseUrl/users/notificationOnOff";
   static const String packBuy = "$_baseUrl/users/packBuy";
   static const String followUnfollwUser = "$_baseUrl/users/followUnfollowUser";
+  static const String limitedBorder = "$_baseUrl/users/limitedBorder";
 
 
 

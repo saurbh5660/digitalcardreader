@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../common/apputills.dart';
+
 class ProfileScreen extends GetView<ProfileController> {
   const ProfileScreen({super.key});
 
@@ -238,6 +240,47 @@ class ProfileScreen extends GetView<ProfileController> {
                             fontFamily: GoogleFonts.openSans().fontFamily,
                           ),
                         );
+                      }),
+                      SizedBox(height: 20),
+                      Obx(() {
+                        if (controller.profile.value.packUsed == 0 && controller.profile.value.packType != "0") {
+                          return TextButton(
+                            onPressed: () {
+                              controller.showFortuneWheelDialog(
+                                context,
+                                    (result) {
+                                  bool won = controller.evaluateWin(result);
+                                  if (won) {
+                                    controller.limitedBorder(1);
+                                    Utils.showToast(message: "🎉 Congratulation you got limited border!");
+                                  } else {
+                                    controller.limitedBorder(0);
+                                    Utils.showErrorToast(message: "Better luck next time!");
+                                  }
+                                },
+                              );
+                            },
+                            style: TextButton.styleFrom(
+                              foregroundColor: AppColors.white,
+                              backgroundColor: AppColors.swatch,
+                              padding: EdgeInsets.symmetric(horizontal: 25),
+                              visualDensity: VisualDensity.compact,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            child:Text(
+                              'Limited Border',
+                              style: TextStyle(
+                                fontFamily: GoogleFonts.openSans().fontFamily,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            )
+                          );
+                        }else{
+                          return SizedBox();
+                        }
                       }),
                       SizedBox(height: 20),
                       Divider(

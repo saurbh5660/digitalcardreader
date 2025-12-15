@@ -53,7 +53,7 @@ class MarketWidget extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Positioned.fill(
                             child: Image.asset(
-                              Utils.getBorderImage(cardList.userCard?.overall ?? 0.0),
+                              Utils.getBorderImage(cardList.userCard?.overall ?? 0.0,cardList.user?.hasLimited ?? 0),
                               // Utils.getBorderImage(8.25),
                               fit: BoxFit.fill,
                             ),

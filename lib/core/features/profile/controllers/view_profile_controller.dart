@@ -1,13 +1,9 @@
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-
 import '../../../../network/api_provider.dart';
 import '../../../common/apputills.dart';
-import '../../../constants/app_images.dart';
 import '../../../constants/app_routes.dart';
 import '../../../models/card_list_response.dart';
-import '../../../models/card_model.dart';
-import '../../../models/chat_model.dart';
 import '../../../models/collection_response.dart';
 import '../../../models/marketplace_response.dart';
 import '../../../models/profile_response.dart';
@@ -19,6 +15,7 @@ class ViewProfileController extends GetxController {
   var cardList = <CardList>[].obs;
   var marketList = <MarketList>[].obs;
   var id = '';
+  var followStatus = 0.obs;
 
   @override
   void onInit() {
@@ -40,7 +37,8 @@ class ViewProfileController extends GetxController {
     Logger().d(response);
     if (response.success == true) {
       profile.value = response.body ?? ProfileData();
-      return;
+      followStatus.value = profile.value.isFollow ?? 0;
+
     } else {
       Utils.showErrorToast(message: response.message);
     }
@@ -121,7 +119,7 @@ class ViewProfileController extends GetxController {
 
   Future<void> followUnfollow() async {
     int newStatus = 0;
-    final iFollow = profile.value.iFollow;
+    final iFollow = profile.value.isFollow;
     if (iFollow == 0) {
       newStatus = 1;
     } else if (iFollow == 1) {
@@ -132,7 +130,8 @@ class ViewProfileController extends GetxController {
     Map<String, dynamic> data = {"followingId": profile.value.id.toString()};
     var response = await ApiProvider().followUnfollow(data);
     if (response.success == true) {
-      profile.value.iFollow = newStatus;
+      profile.value.isFollow = newStatus;
+      followStatus.value = newStatus;
     } else {
       Utils.showToast(message: response.message);
     }

@@ -518,14 +518,19 @@ class Utils {
         lower.endsWith(".webp");
   }
 
-  static String getBorderImage(num grade) {
-    if (grade <= 8.0) {
-      return Assets.imagesBronzeBorder;
-    } else if (grade > 8.0 && grade <= 9.0) {
-      return Assets.imagesSilverBorder;
-    } else {
-      return Assets.imagesGoldBorder;
+  static String getBorderImage(num grade,int hasLimited) {
+    if(hasLimited == 1){
+      return Assets.imagesGoldLimitedBorder;
+    }else{
+      if (grade <= 8.0) {
+        return Assets.imagesBronzeBorder;
+      } else if (grade > 8.0 && grade <= 9.0) {
+        return Assets.imagesSilverBorder;
+      } else {
+        return Assets.imagesGoldBorder;
+      }
     }
+
   }
 
 }

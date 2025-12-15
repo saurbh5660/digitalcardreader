@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import '../../../../generated/assets.dart';
 import '../../../../network/api_constants.dart';
 import '../../../common/db_helper.dart';
+import '../../../common/socket_service.dart';
 
 class ChatCard extends StatelessWidget {
   final dynamic chat;
@@ -15,6 +16,8 @@ class ChatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final SocketService socketService = SocketService();
+
     final senderId = DbHelper().getUserModel()?.id.toString() ?? "";
     final bool isSender = chat['senderId'] == senderId;
     final user = isSender ? chat['receiver'] : chat['sender'];
@@ -26,8 +29,8 @@ class ChatCard extends StatelessWidget {
 
     return ListTile(
       contentPadding: EdgeInsets.only(),
-      onTap: () {
-        Get.toNamed(
+      onTap: () async{
+        await Get.toNamed(
           AppRoutes.message,
           arguments: {
             'receiverId': user['id'] ?? "",
@@ -35,6 +38,7 @@ class ChatCard extends StatelessWidget {
             'receiverName': user['name'] ?? '',
           },
         );
+        socketService.userConstantList(senderId);
       },
       leading: ClipOval(
         child: profilePicture.isNotEmpty

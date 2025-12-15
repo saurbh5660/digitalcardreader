@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:digital_card_grader/core/common/db_helper.dart';
 import 'package:digital_card_grader/core/models/card_list_response.dart';
 import 'package:digital_card_grader/core/models/marketplace_response.dart';
 import 'package:digital_card_grader/core/models/profile_response.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:get/get.dart';
@@ -20,6 +18,7 @@ class ProfileController extends GetxController {
   var profile = ProfileData().obs;
   var cardList = <CardList>[].obs;
   var marketList = <MarketList>[].obs;
+  var packUsed = 0.obs;
 
   @override
   void onInit() {
@@ -35,11 +34,14 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getProfile() async {
-    Map<String, dynamic> data = {'userId': DbHelper().getUserModel()?.id.toString()};
+    Map<String, dynamic> data = {
+      'userId': DbHelper().getUserModel()?.id.toString(),
+    };
     var response = await ApiProvider().getProfile(data);
     Logger().d(response);
     if (response.success == true) {
       profile.value = response.body ?? ProfileData();
+      packUsed.value = response.body?.packUsed ?? 0;
       return;
     } else {
       Utils.showErrorToast(message: response.message);
@@ -47,7 +49,9 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getCollection() async {
-    Map<String, dynamic> data = {'userId': DbHelper().getUserModel()?.id.toString()};
+    Map<String, dynamic> data = {
+      'userId': DbHelper().getUserModel()?.id.toString(),
+    };
     var response = await ApiProvider().getCollection(data);
     Logger().d(response);
     if (response.success == true) {
@@ -59,7 +63,9 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getCardListing() async {
-    Map<String, dynamic> data = {'userId': DbHelper().getUserModel()?.id.toString()};
+    Map<String, dynamic> data = {
+      'userId': DbHelper().getUserModel()?.id.toString(),
+    };
     var response = await ApiProvider().getCardList(data);
     Logger().d(response);
     if (response.success == true) {
@@ -71,7 +77,9 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getMarketListing() async {
-    Map<String, dynamic> data = {'userId': DbHelper().getUserModel()?.id.toString()};
+    Map<String, dynamic> data = {
+      'userId': DbHelper().getUserModel()?.id.toString(),
+    };
     var response = await ApiProvider().getMarketPlace(data);
     Logger().d(response);
     if (response.success == true) {
@@ -81,7 +89,6 @@ class ProfileController extends GetxController {
       Utils.showErrorToast(message: response.message);
     }
   }
-
 
   List<dynamic> get currentList {
     switch (selectedIndex.value) {
@@ -96,7 +103,6 @@ class ProfileController extends GetxController {
     }
   }
 
-
   // Check if current list is empty
   bool get isCurrentListEmpty {
     switch (selectedIndex.value) {
@@ -110,7 +116,6 @@ class ProfileController extends GetxController {
         return true;
     }
   }
-
 
   bool evaluateWin(int number) {
     // int pack = int.parse(profile.value.packType ?? "0");
@@ -129,7 +134,9 @@ class ProfileController extends GetxController {
   }
 
   Future<void> showFortuneWheelDialog(
-      BuildContext context, Function(int) onSpin) async {
+    BuildContext context,
+    Function(int) onSpin,
+  ) async {
     StreamController<int> selected = StreamController<int>();
 
     // Wheel slices
@@ -141,7 +148,7 @@ class ProfileController extends GetxController {
       "56–70",
       "71–85",
       "86–95",
-      "96–100"
+      "96–100",
     ];
 
     // Mapped ranges
@@ -156,13 +163,14 @@ class ProfileController extends GetxController {
       [96, 100],
     ];
 
-
     showDialog(
       barrierDismissible: true,
       context: context,
       builder: (_) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: Container(
             padding: EdgeInsets.all(16),
             height: 420,
@@ -170,21 +178,19 @@ class ProfileController extends GetxController {
               children: [
                 Text(
                   "🎡 Spin the Wheel!",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 14),
 
                 Expanded(
                   child: FortuneWheel(
                     selected: selected.stream,
+                    animateFirst: false,
                     items: [
                       for (var label in sections)
                         FortuneItem(
                           child: Text(label, style: TextStyle(fontSize: 14)),
-                        )
+                        ),
                     ],
                   ),
                 ),
@@ -211,5 +217,16 @@ class ProfileController extends GetxController {
     );
   }
 
-
+  Future<void> limitedBorder(int hasLimited) async {
+    Map<String, dynamic> data = {"hasLimited": hasLimited};
+    var response = await ApiProvider().limitedBorder(data);
+    if (response.success == true) {
+      getProfile();
+      getCollection();
+      getCardListing();
+      getMarketListing();
+    } else {
+      Utils.showToast(message: response.message);
+    }
+  }
 }

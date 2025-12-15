@@ -92,7 +92,8 @@ class User {
       this.name, 
       this.email, 
       this.password, 
-      this.profilePicture, 
+      this.hasLimited,
+      this.profilePicture,
       this.resetToken, 
       this.resetTokenExpires, 
       this.deviceToken, 
@@ -111,6 +112,7 @@ class User {
     customerId = json['customerId'];
     name = json['name'];
     email = json['email'];
+    hasLimited = json['hasLimited'];
     password = json['password'];
     profilePicture = json['profilePicture'];
     resetToken = json['resetToken'];
@@ -130,6 +132,7 @@ class User {
   String? customerId;
   String? name;
   String? email;
+  int? hasLimited;
   String? password;
   dynamic profilePicture;
   dynamic resetToken;
@@ -151,6 +154,7 @@ class User {
     map['customerId'] = customerId;
     map['name'] = name;
     map['email'] = email;
+    map['hasLimited'] = hasLimited;
     map['password'] = password;
     map['profilePicture'] = profilePicture;
     map['resetToken'] = resetToken;

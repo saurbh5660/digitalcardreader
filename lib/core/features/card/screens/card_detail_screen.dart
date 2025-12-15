@@ -290,7 +290,12 @@ class CardDetailScreen extends GetView<CardDetailController> {
                         padding: const EdgeInsets.all(8.0),
                         child: Positioned.fill(
                           child: Image.asset(
-                            Utils.getBorderImage(isFront ? (card.userCard?.overall ?? 0.0) : (card.userCard?.backOverall ?? 0.0)),
+                            Utils.getBorderImage(
+                              isFront
+                                  ? (card.userCard?.overall ?? 0.0)
+                                  : (card.userCard?.backOverall ?? 0.0),
+                              card.user?.hasLimited ?? 0,
+                            ),
                             // Utils.getBorderImage(8.25),
                             fit: BoxFit.fill,
                           ),
