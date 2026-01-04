@@ -1,6 +1,5 @@
 import 'package:digital_card_grader/core/common/common_appbar.dart';
 import 'package:digital_card_grader/core/constants/app_colors.dart';
-import 'package:digital_card_grader/core/constants/app_images.dart';
 import 'package:digital_card_grader/core/constants/app_routes.dart';
 import 'package:digital_card_grader/core/features/profile/controllers/profile_controller.dart';
 import 'package:digital_card_grader/core/features/profile/widgets/card_listing_widget.dart';
@@ -10,8 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../common/apputills.dart';
 
 class ProfileScreen extends GetView<ProfileController> {
   const ProfileScreen({super.key});
@@ -137,7 +134,7 @@ class ProfileScreen extends GetView<ProfileController> {
                               children: [
                                 Obx(() {
                                   return Text(
-                                    (controller.profile.value.friendsCount ?? 0)
+                                    (controller.profile.value.response?.friendsCount ?? 0)
                                         .toString(),
                                     style: TextStyle(
                                       fontSize: 18,
@@ -222,7 +219,7 @@ class ProfileScreen extends GetView<ProfileController> {
                       SizedBox(height: 20),
                       Obx(() {
                         return Text(
-                          controller.profile.value.name ?? '',
+                          controller.profile.value.response?.name ?? '',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24,
@@ -232,7 +229,7 @@ class ProfileScreen extends GetView<ProfileController> {
                       }),
                       Obx(() {
                         return Text(
-                          'Credits: ${controller.profile.value.myCredits ?? 0}',
+                          'Credits: ${controller.profile.value.response?.myCredits ?? 0}',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
@@ -242,8 +239,8 @@ class ProfileScreen extends GetView<ProfileController> {
                         );
                       }),
                       SizedBox(height: 20),
-                      Obx(() {
-                        if (controller.profile.value.packUsed == 0 && controller.profile.value.packType != "0") {
+                     /* Obx(() {
+                        if ((controller.profile.value.packBuyList ?? []).isNotEmpty) {
                           return TextButton(
                             onPressed: () {
                               controller.showFortuneWheelDialog(
@@ -281,7 +278,7 @@ class ProfileScreen extends GetView<ProfileController> {
                         }else{
                           return SizedBox();
                         }
-                      }),
+                      }),*/
                       SizedBox(height: 20),
                       Divider(
                         color: AppColors.textGrey.withAlpha(100),
@@ -291,7 +288,7 @@ class ProfileScreen extends GetView<ProfileController> {
                       SizedBox(height: 20),
                       Obx(() {
                         return Text(
-                          controller.profile.value.bio ?? '',
+                          controller.profile.value.response?.bio ?? '',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
@@ -310,7 +307,7 @@ class ProfileScreen extends GetView<ProfileController> {
                     borderRadius: BorderRadius.circular(62),
                     child: Image.network(
                       ApiConstants.userImageUrl +
-                          (controller.profile.value.profilePicture ?? ''),
+                          (controller.profile.value.response?.profilePicture ?? ''),
                       width: 124,
                       height: 124,
                       fit: BoxFit.cover,

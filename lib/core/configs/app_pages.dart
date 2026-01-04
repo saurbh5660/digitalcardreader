@@ -10,6 +10,7 @@ import 'package:digital_card_grader/core/features/card/screens/add_card_detail_s
 import 'package:digital_card_grader/core/features/card/screens/add_payment_card_screen.dart';
 import 'package:digital_card_grader/core/features/card/screens/back_card_screen.dart';
 import 'package:digital_card_grader/core/features/card/screens/card_grading_screen.dart';
+import 'package:digital_card_grader/core/features/card/screens/collection_card_screen.dart';
 import 'package:digital_card_grader/core/features/card/screens/payment_screen.dart';
 import 'package:digital_card_grader/core/features/card/screens/front_card_screen.dart';
 import 'package:digital_card_grader/core/features/chat/screens/chat_screen.dart';
@@ -176,6 +177,11 @@ class AppPages {
     GetPage(
       name: AppRoutes.uploadBackCard,
       page: () => BackCardScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.collectionCardScreen,
+      page: () => CollectionCardScreen(),
+      binding: CollectionCardBinding(),
     ),
     GetPage(
       name: AppRoutes.success,

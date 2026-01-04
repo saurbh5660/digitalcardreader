@@ -1,3 +1,4 @@
+import 'card_list_response.dart';
 import 'collection_response.dart';
 
 class MarketplaceResponse {
@@ -88,6 +89,40 @@ class MarketList {
     return map;
   }
 
+  factory MarketList.fromCard(CardList card) {
+    return MarketList(
+      cardId: card.id,
+      userId: card.userId,
+      additionalNotes: card.additionalNotes,
+      userCard: UserCard(
+        id: card.id,
+        createdAt: card.createdAt,
+        updatedAt: card.updatedAt,
+        status: card.status,
+        userId: card.userId,
+        collectionId: card.collectionId,
+        cardName: card.cardName,
+        hasLimited: card.hasLimited,
+        cardType: card.cardType,
+        additionalNotes: card.additionalNotes,
+        imagePath: card.imagePath,
+        backImagePath: card.backImagePath,
+        backCentering: card.backCentering,
+        backEdges: card.backEdges,
+        backSurface: card.backSurface,
+        backCorners: card.backCorners,
+        backOverall: card.backOverall,
+        centering: card.centering,
+        edges: card.edges,
+        surface: card.surface,
+        corners: card.corners,
+        overall: card.overall,
+      ),
+      user: card.user,
+    );
+  }
+
+
 }
 
 class UserCard {
@@ -105,7 +140,8 @@ class UserCard {
       this.backImagePath, 
       this.backCentering, 
       this.backEdges, 
-      this.backSurface, 
+      this.hasLimited,
+      this.backSurface,
       this.backCorners, 
       this.backOverall, 
       this.centering, 
@@ -132,6 +168,7 @@ class UserCard {
     backCorners = json['backCorners'];
     backOverall = json['backOverall'];
     centering = json['centering'];
+    hasLimited = json['hasLimited'];
     edges = json['edges'];
     surface = json['surface'];
     corners = json['corners'];
@@ -154,6 +191,7 @@ class UserCard {
   num? backCorners;
   num? backOverall;
   num? centering;
+  int? hasLimited;
   num? edges;
   num? surface;
   num? corners;
@@ -176,6 +214,7 @@ class UserCard {
     map['backEdges'] = backEdges;
     map['backSurface'] = backSurface;
     map['backCorners'] = backCorners;
+    map['hasLimited'] = hasLimited;
     map['backOverall'] = backOverall;
     map['centering'] = centering;
     map['edges'] = edges;
@@ -186,3 +225,4 @@ class UserCard {
   }
 
 }
+

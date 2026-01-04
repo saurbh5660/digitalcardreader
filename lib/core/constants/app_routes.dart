@@ -34,4 +34,5 @@ class AppRoutes {
   static const pack = "/pack";
   static const uploadCard = "/uploadCard";
   static const uploadBackCard = "/uploadBackCard";
+  static const collectionCardScreen = "/collectionCardScreen";
 }

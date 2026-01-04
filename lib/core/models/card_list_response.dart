@@ -53,7 +53,8 @@ class CardList {
       this.backEdges, 
       this.backSurface, 
       this.backCorners, 
-      this.backOverall, 
+      this.hasLimited,
+      this.backOverall,
       this.centering, 
       this.edges, 
       this.surface, 
@@ -78,6 +79,7 @@ class CardList {
     backSurface = json['backSurface'];
     backCorners = json['backCorners'];
     backOverall = json['backOverall'];
+    hasLimited = json['hasLimited'];
     centering = json['centering'];
     edges = json['edges'];
     surface = json['surface'];
@@ -107,6 +109,7 @@ class CardList {
   num? surface;
   num? corners;
   num? overall;
+  int? hasLimited;
   User? user;
 
 
@@ -118,6 +121,7 @@ class CardList {
     map['status'] = status;
     map['userId'] = userId;
     map['collectionId'] = collectionId;
+    map['hasLimited'] = hasLimited;
     map['cardName'] = cardName;
     map['cardType'] = cardType;
     map['additionalNotes'] = additionalNotes;

@@ -37,7 +37,7 @@ class ViewProfileController extends GetxController {
     Logger().d(response);
     if (response.success == true) {
       profile.value = response.body ?? ProfileData();
-      followStatus.value = profile.value.isFollow ?? 0;
+      followStatus.value = profile.value.response?.isFollow ?? 0;
 
     } else {
       Utils.showErrorToast(message: response.message);
@@ -110,16 +110,16 @@ class ViewProfileController extends GetxController {
     Get.toNamed(
       AppRoutes.message,
       arguments: {
-        'receiverId': profile.value.id ?? '',
-        'receiverImage': profile.value.profilePicture ?? '',
-        'receiverName': profile.value.name ?? '',
+        'receiverId': profile.value.response?.id ?? '',
+        'receiverImage': profile.value.response?.profilePicture ?? '',
+        'receiverName': profile.value.response?.name ?? '',
       },
     );
   }
 
   Future<void> followUnfollow() async {
     int newStatus = 0;
-    final iFollow = profile.value.isFollow;
+    final iFollow = profile.value.response?.isFollow;
     if (iFollow == 0) {
       newStatus = 1;
     } else if (iFollow == 1) {
@@ -127,10 +127,10 @@ class ViewProfileController extends GetxController {
     } else {
       newStatus = 0;
     }
-    Map<String, dynamic> data = {"followingId": profile.value.id.toString()};
+    Map<String, dynamic> data = {"followingId": profile.value.response?.id.toString()};
     var response = await ApiProvider().followUnfollow(data);
     if (response.success == true) {
-      profile.value.isFollow = newStatus;
+      profile.value.response?.isFollow = newStatus;
       followStatus.value = newStatus;
     } else {
       Utils.showToast(message: response.message);

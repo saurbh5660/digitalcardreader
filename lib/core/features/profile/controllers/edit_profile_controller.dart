@@ -32,11 +32,11 @@ class EditProfileController extends GetxController {
     Logger().d(response);
     if (response.success == true) {
       profile.value = response.body ?? ProfileData();
-      if((profile.value.profilePicture ?? '').toString().isNotEmpty){
-        profileImages.value = ApiConstants.userImageUrl+(profile.value.profilePicture ?? '');
+      if((profile.value.response?.profilePicture ?? '').toString().isNotEmpty){
+        profileImages.value = ApiConstants.userImageUrl+(profile.value.response?.profilePicture ?? '');
       }
-      nameController.text = profile.value.name ?? '';
-      bioController.text = profile.value.bio ?? '';
+      nameController.text = profile.value.response?.name ?? '';
+      bioController.text = profile.value.response?.bio ?? '';
       return;
     } else {
       Utils.showErrorToast(message: response.message);

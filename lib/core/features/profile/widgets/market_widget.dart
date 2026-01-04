@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../generated/assets.dart';
+import '../../../common/db_helper.dart';
 import '../../../constants/app_routes.dart';
 
 class MarketWidget extends StatelessWidget {
@@ -53,7 +54,7 @@ class MarketWidget extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Positioned.fill(
                             child: Image.asset(
-                              Utils.getBorderImage(cardList.userCard?.overall ?? 0.0,cardList.user?.hasLimited ?? 0),
+                              Utils.getBorderImage(cardList.userCard?.overall ?? 0.0,cardList.userCard?.hasLimited ?? 0),
                               // Utils.getBorderImage(8.25),
                               fit: BoxFit.fill,
                             ),
@@ -186,8 +187,8 @@ class MarketWidget extends StatelessWidget {
                       SizedBox(width: 3),
                       GestureDetector(
                         onTap: () {
-                          if (canOpenProfile) {
-                            Get.toNamed(AppRoutes.viewProfile,arguments: {"id":cardList.user?.id.toString()});
+                          if(cardList.user?.id.toString() != DbHelper().getUserModel()?.id.toString()){
+                          Get.toNamed(AppRoutes.viewProfile,arguments: {"id":cardList.user?.id.toString()});
                           }
                         },
                         child: ClipRRect(

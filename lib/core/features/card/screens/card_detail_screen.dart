@@ -1,4 +1,5 @@
 import 'package:digital_card_grader/core/common/common_button.dart';
+import 'package:digital_card_grader/core/common/db_helper.dart';
 import 'package:digital_card_grader/core/constants/app_colors.dart';
 import 'package:digital_card_grader/core/features/card/controllers/card_detail_controller.dart';
 import 'package:flutter/material.dart';
@@ -294,7 +295,7 @@ class CardDetailScreen extends GetView<CardDetailController> {
                               isFront
                                   ? (card.userCard?.overall ?? 0.0)
                                   : (card.userCard?.backOverall ?? 0.0),
-                              card.user?.hasLimited ?? 0,
+                              card.userCard?.hasLimited ?? 0,
                             ),
                             // Utils.getBorderImage(8.25),
                             fit: BoxFit.fill,
@@ -444,10 +445,12 @@ class CardDetailScreen extends GetView<CardDetailController> {
               ),
 
               const SizedBox(height: 20),
-              CommonButton(
-                title: "Message Seller",
-                onPressed: controller.onMessageSeller,
-              ),
+              if(card.user?.id.toString() != DbHelper().getUserModel()?.id.toString())...{
+                CommonButton(
+                  title: "Message Seller",
+                  onPressed: controller.onMessageSeller,
+                ),
+              }
             ],
           ),
         ),

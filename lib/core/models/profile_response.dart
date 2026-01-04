@@ -31,12 +31,85 @@ class ProfileResponse {
 
 class ProfileData {
   ProfileData({
+      this.response, 
+      this.packBuyList,});
+
+  ProfileData.fromJson(dynamic json) {
+    response = json['response'] != null ? Response.fromJson(json['response']) : null;
+    if (json['packBuyList'] != null) {
+      packBuyList = [];
+      json['packBuyList'].forEach((v) {
+        packBuyList?.add(PackBuyList.fromJson(v));
+      });
+    }
+  }
+  Response? response;
+  List<PackBuyList>? packBuyList;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    if (response != null) {
+      map['response'] = response?.toJson();
+    }
+    if (packBuyList != null) {
+      map['packBuyList'] = packBuyList?.map((v) => v.toJson()).toList();
+    }
+    return map;
+  }
+
+}
+
+class PackBuyList {
+  PackBuyList({
+      this.id, 
+      this.createdAt, 
+      this.updatedAt, 
+      this.status, 
+      this.userId, 
+      this.packType, 
+      this.packUsed,});
+
+  PackBuyList.fromJson(dynamic json) {
+    id = json['id'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    status = json['status'];
+    userId = json['userId'];
+    packType = json['packType'];
+    packUsed = json['packUsed'];
+  }
+  String? id;
+  String? createdAt;
+  String? updatedAt;
+  int? status;
+  String? userId;
+  String? packType;
+  int? packUsed;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = id;
+    map['createdAt'] = createdAt;
+    map['updatedAt'] = updatedAt;
+    map['status'] = status;
+    map['userId'] = userId;
+    map['packType'] = packType;
+    map['packUsed'] = packUsed;
+    return map;
+  }
+
+}
+
+class Response {
+  Response({
       this.id, 
       this.createdAt, 
       this.updatedAt, 
       this.status, 
       this.role, 
       this.customerId, 
+      this.myCredits, 
+      this.hasLimited, 
       this.name, 
       this.email, 
       this.password, 
@@ -46,23 +119,21 @@ class ProfileData {
       this.deviceToken, 
       this.deviceType, 
       this.bio, 
-      this.friendsCount,
-      this.packType,
-      this.isFollow,
-      this.hasLimited,
-      this.packUsed,
-      this.myCredits,
-      this.otpVerify,
+      this.otpVerify, 
       this.socketId, 
-      this.isOnline,});
+      this.isOnline, 
+      this.friendsCount, 
+      this.isFollow,});
 
-  ProfileData.fromJson(dynamic json) {
+  Response.fromJson(dynamic json) {
     id = json['id'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     status = json['status'];
     role = json['role'];
     customerId = json['customerId'];
+    myCredits = json['myCredits'];
+    hasLimited = json['hasLimited'];
     name = json['name'];
     email = json['email'];
     password = json['password'];
@@ -73,28 +144,20 @@ class ProfileData {
     deviceType = json['deviceType'];
     bio = json['bio'];
     otpVerify = json['otpVerify'];
-    myCredits = json['myCredits'];
-    packType = json['packType'];
-    hasLimited = json['hasLimited'];
-    packUsed = json['packUsed'];
-    friendsCount = json['friendsCount'];
     socketId = json['socketId'];
-    isFollow = json['isFollow'];
     isOnline = json['isOnline'];
+    friendsCount = json['friendsCount'];
+    isFollow = json['isFollow'];
   }
   String? id;
   String? createdAt;
   String? updatedAt;
   int? status;
   int? role;
-  int? isFollow;
   String? customerId;
-  String? name;
   int? myCredits;
   int? hasLimited;
-  int? packUsed;
-  int? friendsCount;
-  String? packType;
+  String? name;
   String? email;
   String? password;
   dynamic profilePicture;
@@ -103,9 +166,11 @@ class ProfileData {
   String? deviceToken;
   String? deviceType;
   dynamic bio;
-  dynamic otpVerify;
+  int? otpVerify;
   String? socketId;
   int? isOnline;
+  int? friendsCount;
+  int? isFollow;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -115,6 +180,8 @@ class ProfileData {
     map['status'] = status;
     map['role'] = role;
     map['customerId'] = customerId;
+    map['myCredits'] = myCredits;
+    map['hasLimited'] = hasLimited;
     map['name'] = name;
     map['email'] = email;
     map['password'] = password;
@@ -124,15 +191,11 @@ class ProfileData {
     map['deviceToken'] = deviceToken;
     map['deviceType'] = deviceType;
     map['bio'] = bio;
-    map['myCredits'] = myCredits;
-    map['hasLimited'] = hasLimited;
-    map['packUsed'] = packUsed;
-    map['packType'] = packType;
     map['otpVerify'] = otpVerify;
-    map['friendsCount'] = friendsCount;
     map['socketId'] = socketId;
-    map['isFollow'] = isFollow;
     map['isOnline'] = isOnline;
+    map['friendsCount'] = friendsCount;
+    map['isFollow'] = isFollow;
     return map;
   }
 

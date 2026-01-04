@@ -103,7 +103,7 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                               children: [
                                 Obx(() {
                                   return Text(
-                                    (controller.profile.value.friendsCount ?? 0)
+                                    (controller.profile.value.response?.friendsCount ?? 0)
                                         .toString(),
                                     style: TextStyle(
                                       fontSize: 18,
@@ -188,7 +188,7 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                       SizedBox(height: 20),
                       Obx(() {
                         return Text(
-                          controller.profile.value.name ?? '',
+                          controller.profile.value.response?.name ?? '',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24,
@@ -214,7 +214,7 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                       SizedBox(height: 20),
                       Obx(() {
                         return Text(
-                          controller.profile.value.bio ?? '',
+                          controller.profile.value.response?.bio ?? '',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
@@ -314,7 +314,7 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                     borderRadius: BorderRadius.circular(62),
                     child: Image.network(
                       ApiConstants.userImageUrl +
-                          (controller.profile.value.profilePicture ?? ''),
+                          (controller.profile.value.response?.profilePicture ?? ''),
                       width: 124,
                       height: 124,
                       fit: BoxFit.cover,

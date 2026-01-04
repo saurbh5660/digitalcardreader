@@ -19,7 +19,6 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     final isLoggedIn = DbHelper().getIsLoggedIn();
-
     getMarketListing();
     Logger().d(isLoggedIn);
     inputFocus.addListener(() {

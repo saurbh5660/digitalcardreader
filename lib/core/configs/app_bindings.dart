@@ -6,6 +6,7 @@ import 'package:digital_card_grader/core/features/cms/controllers/cms_controller
 import 'package:digital_card_grader/core/features/dashboard/controllers/dashboard_controller.dart';
 import 'package:digital_card_grader/core/features/home/controllers/home_controller.dart';
 import 'package:digital_card_grader/core/features/onboarding/controllers/onboarding_controller.dart';
+import 'package:digital_card_grader/core/features/profile/controllers/collection_card_controller.dart';
 import 'package:digital_card_grader/core/features/profile/controllers/edit_profile_controller.dart';
 import 'package:digital_card_grader/core/features/profile/controllers/view_profile_controller.dart';
 import 'package:digital_card_grader/core/features/setting/controllers/pack_controller.dart';
@@ -200,5 +201,12 @@ class PackBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => PacksController());
+  }
+}
+
+class CollectionCardBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => CollectionCardController());
   }
 }

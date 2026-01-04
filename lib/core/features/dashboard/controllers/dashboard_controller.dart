@@ -3,6 +3,7 @@ import 'package:digital_card_grader/core/features/card/controllers/add_card_deta
 import 'package:digital_card_grader/core/features/chat/controllers/chat_controller.dart';
 import 'package:get/get.dart';
 import '../../../common/socket_service.dart';
+import '../../home/controllers/home_controller.dart';
 
 class DashboardController extends GetxController {
   final currentIndex = RxInt(0);
@@ -11,6 +12,9 @@ class DashboardController extends GetxController {
   void onChangeIndex(int index) {
     currentIndex.value = index;
     switch (index) {
+      case 0: {
+          Get.find<HomeController>().getMarketListing();
+      }
       case 1:
         Get.lazyPut(() => BrowseController());
       case 2:
