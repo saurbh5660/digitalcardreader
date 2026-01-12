@@ -37,7 +37,7 @@ class CardWidget extends StatelessWidget {
       },
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusGeometry.circular(27),
+          borderRadius: BorderRadiusGeometry.circular(16),
         ),
         color: AppColors.white,
         child: Column(
@@ -45,25 +45,25 @@ class CardWidget extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(27),
+                  borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.textGrey.withAlpha(80),
+                      color: AppColors.white,
                       offset: Offset(0, 1.5),
                     ),
                   ],
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(12),
                   child: AspectRatio(
-                    aspectRatio: 0.80,
+                    aspectRatio: 0.95,
                     child: Stack(
                       fit: StackFit.expand,
                       children: [
                         /// BORDER PNG - ALWAYS visible & fills entire card
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Positioned.fill(
+                        Positioned.fill(
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
                             child: Image.asset(
                               Utils.getBorderImage(
                                 cardList.overall ?? 0.0,
@@ -79,10 +79,10 @@ class CardWidget extends StatelessWidget {
                         Align(
                           alignment: Alignment.center,
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 44.0),
+                            padding: const EdgeInsets.only(top: 38),
                             child: FractionallySizedBox(
                               widthFactor: 0.72,
-                              heightFactor: 0.76,
+                              heightFactor: 0.80,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
                                 child: Image.network(
@@ -96,13 +96,13 @@ class CardWidget extends StatelessWidget {
                         ),
 
                         Positioned(
-                          top: 31,
-                          right: 32,
+                          top: 29,
+                          right: 30,
                           child: Text(
                             (cardList.overall ?? '0.0').toString(),
                             style: GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontSize: 7,
+                              color: Colors.white,
+                              fontSize: 6,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -113,50 +113,6 @@ class CardWidget extends StatelessWidget {
                 ),
               ),
             ),
-            /*  Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(27),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.textGrey.withAlpha(80),
-                      offset: Offset(0, 1.5),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(20),
-                  child: cardList.imagePath != null
-                      ? Image.network(
-                    ApiConstants.userImageUrl + cardList.imagePath!,
-                    fit: BoxFit.cover,
-                    width: double.infinity, // Ensure full width
-                    height: double.infinity,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: AppColors.card,
-                        width: double.infinity,
-                        child: Icon(
-                          Icons.collections,
-                          size: 40,
-                          color: AppColors.textGrey,
-                        ),
-                      );
-                    },
-                  )
-                      : Container(
-                    color: AppColors.card,
-                    width: double.infinity,
-                    child: Icon(
-                      Icons.collections,
-                      size: 40,
-                      color: AppColors.textGrey,
-                    ),
-                  ),
-                ),
-              ),
-            ),*/
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(

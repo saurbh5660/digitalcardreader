@@ -34,7 +34,7 @@ class ListYourCardController extends GetxController {
   }
 
   Future<void> getCollection() async {
-    Map<String, dynamic> data = {'id': DbHelper().getUserModel()?.id.toString()};
+    Map<String, dynamic> data = {'userId': DbHelper().getUserModel()?.id.toString()};
     var response = await ApiProvider().getCollection(data);
     Logger().d(response);
     if (response.success == true) {
@@ -46,9 +46,12 @@ class ListYourCardController extends GetxController {
   }
 
   Future<void> getCardListing() async {
-    Map<String, dynamic> data = {};
+    Map<String, dynamic> data = {
+      'userId': DbHelper().getUserModel()?.id.toString(),
+    };
     if (selectedCollectionId.isNotEmpty) {
       data["collectionId"] = selectedCollectionId.value;
+
     }
     var response = await ApiProvider().getCardListWithId(data);
     Logger().d(response);

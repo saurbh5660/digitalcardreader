@@ -287,9 +287,9 @@ class CardDetailScreen extends GetView<CardDetailController> {
                     fit: StackFit.expand,
                     children: [
                       /// BORDER PNG - ALWAYS visible & fills entire card
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Positioned.fill(
+                      Positioned.fill(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Image.asset(
                             Utils.getBorderImage(
                               isFront
@@ -298,7 +298,7 @@ class CardDetailScreen extends GetView<CardDetailController> {
                               card.userCard?.hasLimited ?? 0,
                             ),
                             // Utils.getBorderImage(8.25),
-                            fit: BoxFit.fill,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
@@ -315,10 +315,9 @@ class CardDetailScreen extends GetView<CardDetailController> {
                               borderRadius: BorderRadius.circular(12),
                               child: Image.network(
                                 isFront
-
                                     ? '${ApiConstants.userImageUrl}${card.userCard?.imagePath ?? ''}'
                                     : '${ApiConstants.userImageUrl}${card.userCard?.backImagePath ?? ''}',
-                                fit: BoxFit.fill,
+                                fit: BoxFit.contain,
                               ),
                             ),
                           ),
@@ -327,12 +326,12 @@ class CardDetailScreen extends GetView<CardDetailController> {
 
                       Positioned(
                         top: 49,
-                        right: 58,
+                        right: 73,
                         child: Text(
                           isFront ? (card.userCard?.overall ?? '0.0').toString()
                           : (card.userCard?.backOverall ?? '0.0').toString(),
                           style: GoogleFonts.poppins(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.w600
                           ),
@@ -440,7 +439,7 @@ class CardDetailScreen extends GetView<CardDetailController> {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
               Text(
-                "The card is in great shape. Kept stored away and well taken care of.",
+                card.additionalNotes?? "",
                 style: TextStyle(color: AppColors.textGrey, fontSize: 12),
               ),
 

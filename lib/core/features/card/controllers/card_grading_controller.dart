@@ -10,6 +10,7 @@ import '../../dashboard/controllers/dashboard_controller.dart';
 class CardGradingController extends GetxController {
   var frontCardData = Rxn<Card>();
   var backCardData = Rxn<Card>();
+  final addCardController = Get.find<AddCardDetailController>();
 
   @override
   void onInit() {
@@ -41,7 +42,6 @@ class CardGradingController extends GetxController {
   }
 
   Future<void> saveImageData() async {
-    final addCardController = Get.find<AddCardDetailController>();
     var type = 0;
     if (addCardController.typeController.text.trim().toString() == 'Pokemon') {
       0;

@@ -51,7 +51,7 @@ class ProfileScreen extends GetView<ProfileController> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.5),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             child: IconButton(
               onPressed: () async {
                 await Get.toNamed(AppRoutes.setting);
@@ -68,7 +68,7 @@ class ProfileScreen extends GetView<ProfileController> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
           child: SingleChildScrollView(
             child: Stack(
               alignment: Alignment.topCenter,

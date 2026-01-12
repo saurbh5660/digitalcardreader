@@ -171,7 +171,7 @@ class CardGradingScreen extends GetView<CardGradingController> {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
               Text(
-                "The card is in great shape. Kept stored away and well taken care of.",
+                controller.addCardController.additionalNoteController.text.toString(),
                 style: TextStyle(color: AppColors.textGrey, fontSize: 12),
               ),
 

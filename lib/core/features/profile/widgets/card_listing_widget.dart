@@ -87,8 +87,8 @@ class CardListingWidget extends GetView<ProfileController> {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: getAspectRatio(controller.selectedIndex.value),
-              mainAxisSpacing: 20,
-              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 5,
             ),
             itemBuilder: (context, index) {
               final item = controller.currentList[index];
@@ -128,7 +128,7 @@ class CardListingWidget extends GetView<ProfileController> {
       case 0: // Collections - you might want different aspect ratio
         return 9 / 14;
       case 1: // Cards
-        return 9 / 14;
+        return 9 / 16;
       case 2: // Listings
         return 9 / 14;
       default:

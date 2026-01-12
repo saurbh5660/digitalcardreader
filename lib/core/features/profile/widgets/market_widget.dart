@@ -23,7 +23,7 @@ class MarketWidget extends StatelessWidget {
       },
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusGeometry.circular(27),
+          borderRadius: BorderRadiusGeometry.circular(20),
         ),
         color: AppColors.white,
         child: Column(
@@ -31,10 +31,10 @@ class MarketWidget extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(27),
+                  borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.textGrey.withAlpha(80),
+                      color: AppColors.white,
                       offset: Offset(0, 1.5),
                     ),
                   ],
@@ -47,12 +47,10 @@ class MarketWidget extends StatelessWidget {
                     child: Stack(
                       fit: StackFit.expand,
                       children: [
-
-
                         /// BORDER PNG - ALWAYS visible & fills entire card
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Positioned.fill(
+                        Positioned.fill(
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
                             child: Image.asset(
                               Utils.getBorderImage(cardList.userCard?.overall ?? 0.0,cardList.userCard?.hasLimited ?? 0),
                               // Utils.getBorderImage(8.25),
@@ -81,12 +79,12 @@ class MarketWidget extends StatelessWidget {
                         ),
 
                         Positioned(
-                          top: 31,
-                          right: 32,
+                          top: 27,
+                          right: 30,
                           child: Text(
                             (cardList.userCard?.overall ?? '0.0').toString(),
                             style: GoogleFonts.poppins(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontSize: 7,
                               fontWeight: FontWeight.w600
                             ),
@@ -99,50 +97,6 @@ class MarketWidget extends StatelessWidget {
                 ),
               ),
             ),
-           /* Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(27),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.textGrey.withAlpha(80),
-                      offset: Offset(0, 1.5),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(20),
-                  child: cardList.userCard?.imagePath != null
-                      ? Image.network(
-                    ApiConstants.userImageUrl + (cardList.userCard?.imagePath ?? '').toString(),
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: AppColors.card,
-                        width: double.infinity,
-                        child: Icon(
-                          Icons.collections,
-                          size: 40,
-                          color: AppColors.textGrey,
-                        ),
-                      );
-                    },
-                  )
-                      : Container(
-                    color: AppColors.card,
-                    width: double.infinity,
-                    child: Icon(
-                      Icons.collections,
-                      size: 40,
-                      color: AppColors.textGrey,
-                    ),
-                  ),
-                ),
-              ),
-            ),*/
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(
