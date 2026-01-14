@@ -18,6 +18,7 @@ class SettingController extends GetxController {
     "Notication",
     "Change Password",
     "Pack",
+    "Inventory",
     "Contact Us",
     "Terms & Conditions",
     "Privacy Policy",
@@ -32,13 +33,15 @@ class SettingController extends GetxController {
       case 2:
         Get.toNamed(AppRoutes.pack);
       case 3:
-        Get.toNamed(AppRoutes.contact);
+        Get.toNamed(AppRoutes.inventory);
       case 4:
+        Get.toNamed(AppRoutes.contact);
+      case 5:
         Get.toNamed(AppRoutes.cms, arguments: CmsEnum.terms);
 
-      case 5:
-        Get.toNamed(AppRoutes.cms, arguments: CmsEnum.policy);
       case 6:
+        Get.toNamed(AppRoutes.cms, arguments: CmsEnum.policy);
+      case 7:
         DialogHelper.openDialog(
           Icons.delete,
           "Delete Account",
@@ -72,7 +75,7 @@ class SettingController extends GetxController {
             ),
           ],
         );
-      case 7:
+      case 8:
         DialogHelper.openDialog(
           FontAwesomeIcons.arrowRightToBracket,
           "Logout",

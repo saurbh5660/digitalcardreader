@@ -28,6 +28,7 @@ import 'package:digital_card_grader/core/features/profile/screens/list_your_card
 import 'package:digital_card_grader/core/features/profile/screens/profile_screen.dart';
 import 'package:digital_card_grader/core/features/profile/screens/view_profile_screen.dart';
 import 'package:digital_card_grader/core/features/setting/pack_screen.dart';
+import 'package:digital_card_grader/core/features/setting/screens/inventory_screen.dart';
 import 'package:digital_card_grader/core/features/setting/screens/setting_screen.dart';
 import 'package:digital_card_grader/core/features/success/screens/success_screen.dart';
 import 'package:digital_card_grader/splash_screen.dart';
@@ -189,6 +190,11 @@ class AppPages {
         title: Get.arguments["title"],
         onPressed: Get.arguments["onPressed"],
       ),
+    ),
+    GetPage(
+      name: AppRoutes.inventory,
+      page: () => InventoryScreen(),
+      binding: ContactBinding(),
     ),
   ];
 }

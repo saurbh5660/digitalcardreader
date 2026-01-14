@@ -266,14 +266,14 @@ class ProfileController extends GetxController {
       bool isWinner = evaluateWin(randomIndex, int.parse(pack.packType ?? "0"));
       if (isWinner) {
         Utils.showToast(message: "🎉 Success! You've unlocked the Limited Border!");
-        limitedBorder(
-            1,
-            cardId,
-            pack.id ?? ""
-        );
+        // limitedBorder(
+        //     1,
+        //     cardId,
+        //     pack.id ?? ""
+        // );
       } else {
         Utils.showErrorToast(message: "Better luck next time!");
-        limitedBorder(0, cardId, pack.id ??'');
+        // limitedBorder(0, cardId, pack.id ??'');
       }
     });
   }
@@ -374,11 +374,11 @@ class ProfileController extends GetxController {
     );
   }
 
-  Future<void> limitedBorder(int hasLimited,String cardId,String packBuyId) async {
+  Future<void> limitedBorder(String cardId) async {
     Map<String, dynamic> data = {
-      "hasLimited": hasLimited,
+      // "hasLimited": hasLimited,
       "cardId": cardId,
-      "packBuyId": packBuyId,
+      // "packBuyId": packBuyId,
     };
     var response = await ApiProvider().limitedBorder(data);
     if (response.success == true) {

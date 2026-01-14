@@ -23,6 +23,7 @@ import '../features/contact/controllers/contact_controller.dart';
 import '../features/card/controllers/card_detail_controller.dart';
 import '../features/message/controllers/message_controller.dart';
 import '../features/profile/controllers/add_collection_controller.dart';
+import '../features/profile/controllers/inventory_controller.dart';
 import '../features/profile/controllers/list_your_card_controller.dart';
 import '../features/profile/controllers/profile_controller.dart';
 import '../features/setting/controllers/setting_controller.dart';
@@ -208,5 +209,12 @@ class CollectionCardBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => CollectionCardController());
+  }
+}
+
+class InventoryBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => InventoryController());
   }
 }

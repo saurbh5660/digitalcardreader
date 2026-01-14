@@ -135,13 +135,45 @@ class CardWidget extends StatelessWidget {
                           final controller = Get.find<ProfileController>();
                           final packs =
                               controller.profile.value.packBuyList ?? [];
-                          if (packs.isNotEmpty) {
-                            return GestureDetector(
-                              onTap: () => controller.showPackSelectionDialog(
-                                context,
-                                packs,
-                                cardList.id.toString(),
+                          GestureDetector(
+                            onTap: (){
+                              controller.limitedBorder(cardList.id.toString());
+                              /* controller.showPackSelectionDialog(
+                                  context,
+                                  packs,
+                                  cardList.id.toString(),
+                                );*/
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 4),
+                              decoration: BoxDecoration(
+                                color: AppColors.black,
+                                shape: BoxShape.circle,
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
                               ),
+                              child: const Icon(
+                                Icons.stars,
+                                color: Colors.amber,
+                                size: 22,
+                              ),
+                            ),
+                          );
+                          /*if (packs.isNotEmpty) {
+                            return GestureDetector(
+                              onTap: (){
+                                controller.limitedBorder(cardList.id.toString());
+                               *//* controller.showPackSelectionDialog(
+                                  context,
+                                  packs,
+                                  cardList.id.toString(),
+                                );*//*
+                              },
                               child: Container(
                                 margin: EdgeInsets.only(right: 4),
                                 decoration: BoxDecoration(
@@ -162,7 +194,7 @@ class CardWidget extends StatelessWidget {
                                 ),
                               ),
                             );
-                          }
+                          }*/
                           return SizedBox.shrink();
                         }),
                       },

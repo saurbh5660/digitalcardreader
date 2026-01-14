@@ -31,6 +31,7 @@ class AppRoutes {
   static const changePassword = "/changePassword";
   static const cms = "/cms";
   static const contact = "/contact";
+  static const inventory = "/inventory";
   static const pack = "/pack";
   static const uploadCard = "/uploadCard";
   static const uploadBackCard = "/uploadBackCard";
