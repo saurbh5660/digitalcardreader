@@ -194,7 +194,6 @@ class AppPages {
     GetPage(
       name: AppRoutes.inventory,
       page: () => InventoryScreen(),
-      binding: ContactBinding(),
     ),
   ];
 }

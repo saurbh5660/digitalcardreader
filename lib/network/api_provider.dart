@@ -1,6 +1,7 @@
 import 'package:digital_card_grader/core/models/card_list_response.dart';
 import 'package:digital_card_grader/core/models/card_response.dart';
 import 'package:digital_card_grader/core/models/common_response.dart';
+import 'package:digital_card_grader/core/models/inventory_response.dart';
 import 'package:digital_card_grader/core/models/profile_response.dart';
 import 'package:digital_card_grader/core/models/signup_response.dart';
 import 'package:http_parser/http_parser.dart';
@@ -254,8 +255,13 @@ class ApiProvider {
   }
 
   Future<CardListResponse> getCardListWithId(
-      Map<String, dynamic> body
+      Map<String, dynamic> body,
+      bool showLoader
       ) async {
+    if(showLoader){
+      Utils.showLoading();
+    }
+
     String queryString = Uri(queryParameters: body).query;
     String urlWithParams = "${ApiConstants.cardList}?$queryString";
     ApiRequest apiRequest = ApiRequest(
@@ -265,8 +271,15 @@ class ApiProvider {
     );
     try {
       var response = await _baseClient.handleRequest(apiRequest);
+      if(showLoader) {
+        Utils.hideLoading();
+      }
+
       return CardListResponse.fromJson(response);
     } catch (e) {
+      if(showLoader) {
+        Utils.hideLoading();
+      }
       final res = (e as dynamic).response;
       if (res != null) {
         return CardListResponse.fromJson(res?.data);
@@ -550,6 +563,48 @@ class ApiProvider {
     } catch (e, stackTrace) {
       Logger().e("Error: ${e.toString()} \nStackTrace: $stackTrace");
       Utils.hideLoading();
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return CommonResponse.fromJson(res?.data);
+      }
+      return CommonResponse(message: e.toString());
+    }
+  }
+
+  Future<InventoryResponse> getInventoryList() async {
+    Utils.showLoading();
+    ApiRequest apiRequest = ApiRequest(
+      url: ApiConstants.getInventroyList,
+      requestType: RequestType.get,
+    );
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      Utils.hideLoading();
+      return InventoryResponse.fromJson(response);
+    } catch (e, stackTrace) {
+      Logger().e("Error: ${e.toString()} \nStackTrace: $stackTrace");
+      Utils.hideLoading();
+      final res = (e as dynamic).response;
+      if (res != null) {
+        return InventoryResponse.fromJson(res?.data);
+      }
+      return InventoryResponse(message: e.toString());
+    }
+  }
+
+  Future<CommonResponse> addInventory() async {
+    // Utils.showLoading();
+    ApiRequest apiRequest = ApiRequest(
+      url: ApiConstants.addInventory,
+      requestType: RequestType.post,
+    );
+    try {
+      var response = await _baseClient.handleRequest(apiRequest);
+      // Utils.hideLoading();
+      return CommonResponse.fromJson(response);
+    } catch (e, stackTrace) {
+      Logger().e("Error: ${e.toString()} \nStackTrace: $stackTrace");
+      // Utils.hideLoading();
       final res = (e as dynamic).response;
       if (res != null) {
         return CommonResponse.fromJson(res?.data);

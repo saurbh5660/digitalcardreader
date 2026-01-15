@@ -1,8 +1,8 @@
 class ApiConstants {
 
-  static const String _baseUrl = "http://43.204.254.177:3005";
-  static const String socketUrl = "http://43.204.254.177:3005";
-  static const String userImageUrl = "http://43.204.254.177:3005";
+  static const String _baseUrl = "http://50.16.133.163:3005";
+  static const String socketUrl = "http://50.16.133.163:3005";
+  static const String userImageUrl = "http://50.16.133.163:3005";
   static const String login = "$_baseUrl/users/login";
   static const String signup = "$_baseUrl/users/signUp";
   static const String userOtpVerify = "$_baseUrl/users/otpVerify";
@@ -26,6 +26,8 @@ class ApiConstants {
   static const String packBuy = "$_baseUrl/users/packBuy";
   static const String followUnfollwUser = "$_baseUrl/users/followUnfollowUser";
   static const String limitedBorder = "$_baseUrl/users/limitedBorder";
+  static const String getInventroyList = "$_baseUrl/users/getInventroyList";
+  static const String addInventory = "$_baseUrl/users/addInventory";
 
 
 

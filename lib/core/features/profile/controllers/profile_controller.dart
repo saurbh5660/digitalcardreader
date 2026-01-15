@@ -376,7 +376,7 @@ class ProfileController extends GetxController {
 
   Future<void> limitedBorder(String cardId) async {
     Map<String, dynamic> data = {
-      // "hasLimited": hasLimited,
+      "hasLimited": "1",
       "cardId": cardId,
       // "packBuyId": packBuyId,
     };

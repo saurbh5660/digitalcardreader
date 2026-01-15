@@ -21,7 +21,7 @@ class CollectionCardController extends GetxController {
     Map<String, dynamic> data = {};
     data["collectionId"] = collectionId;
     data["userId"] = userId;
-    var response = await ApiProvider().getCardListWithId(data);
+    var response = await ApiProvider().getCardListWithId(data,true);
     Logger().d(response);
     if (response.success == true) {
       cardList.value = response.body ?? [];

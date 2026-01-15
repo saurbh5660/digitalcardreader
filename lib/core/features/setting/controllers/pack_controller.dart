@@ -40,7 +40,16 @@ class PacksController extends GetxController {
     if (response.success == true) {
       _startWheelProcess(type);
       // Get.back(result: true);
-      Utils.showToast(message: 'Pack bought successfully!');
+      // Utils.showToast(message: 'Pack bought successfully!');
+
+    } else {
+      Utils.showErrorToast(message: response.message);
+    }
+  }
+
+  Future<void> addInventory() async {
+    var response = await ApiProvider().addInventory();
+    if (response.success == true) {
 
     } else {
       Utils.showErrorToast(message: response.message);
@@ -52,10 +61,16 @@ class PacksController extends GetxController {
       bool isWinner = evaluateWin(randomIndex, type);
 
       if (isWinner) {
+        addInventory();
+        Get.back(result: true);
+
         Utils.showToast(
             message: "🎉 Success! You've unlocked the Limited Border!");
       } else {
+
+        Get.back(result: true);
         Utils.showErrorToast(message: "Better luck next time!");
+
       }
     });
   }

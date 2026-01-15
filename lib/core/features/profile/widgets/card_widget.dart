@@ -135,44 +135,21 @@ class CardWidget extends StatelessWidget {
                           final controller = Get.find<ProfileController>();
                           final packs =
                               controller.profile.value.packBuyList ?? [];
-                          GestureDetector(
-                            onTap: (){
-                              controller.limitedBorder(cardList.id.toString());
-                              /* controller.showPackSelectionDialog(
+                          if (cardList.hasLimited != 1) {
+                            return GestureDetector(
+                              onTap: (){
+                                _showLimitedBorderConfirmDialog(
+                                  context,
+                                  onConfirm: () {
+                                    controller.limitedBorder(cardList.id.toString());
+                                  },
+                                );
+                               /*
+                                controller.showPackSelectionDialog(
                                   context,
                                   packs,
                                   cardList.id.toString(),
                                 );*/
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(right: 4),
-                              decoration: BoxDecoration(
-                                color: AppColors.black,
-                                shape: BoxShape.circle,
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 4,
-                                    offset: Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: const Icon(
-                                Icons.stars,
-                                color: Colors.amber,
-                                size: 22,
-                              ),
-                            ),
-                          );
-                          /*if (packs.isNotEmpty) {
-                            return GestureDetector(
-                              onTap: (){
-                                controller.limitedBorder(cardList.id.toString());
-                               *//* controller.showPackSelectionDialog(
-                                  context,
-                                  packs,
-                                  cardList.id.toString(),
-                                );*//*
                               },
                               child: Container(
                                 margin: EdgeInsets.only(right: 4),
@@ -194,7 +171,7 @@ class CardWidget extends StatelessWidget {
                                 ),
                               ),
                             );
-                          }*/
+                          }
                           return SizedBox.shrink();
                         }),
                       },
@@ -251,4 +228,64 @@ class CardWidget extends StatelessWidget {
       ),
     );
   }
+
+  void _showLimitedBorderConfirmDialog(
+      BuildContext context, {
+        required VoidCallback onConfirm,
+      }) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: const Text(
+            "Confirm",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: const Text(
+            "Are you sure you want to add the limited border for this card?",
+          ),
+          actions: [
+            // ❌ Cancel - Red
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+                minimumSize: Size(100, 40),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Cancel"),
+            ),
+
+            // ✅ Yes - Blue
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                foregroundColor: Colors.white,
+                minimumSize: Size(100, 40),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                onConfirm();
+              },
+              child: const Text("Yes"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
 }

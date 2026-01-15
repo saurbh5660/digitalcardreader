@@ -3,23 +3,23 @@ import 'package:logger/logger.dart';
 import '../../../../network/api_provider.dart';
 import '../../../common/apputills.dart';
 import '../../../models/card_list_response.dart';
+import '../../../models/inventory_response.dart';
 
 class InventoryController extends GetxController {
-  var cardList = <CardList>[].obs;
+  var inventoryList = <InventoryBody>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    getCardListing();
+    Logger().d("DSVDSGdsgdfdffhfgh");
+    getInventoryList();
   }
 
-  Future<void> getCardListing() async {
-    Map<String, dynamic> data = {};
-    // data["userId"] = userId;
-    var response = await ApiProvider().getCardListWithId(data);
+  Future<void> getInventoryList() async {
+    var response = await ApiProvider().getInventoryList();
     Logger().d(response);
     if (response.success == true) {
-      cardList.value = response.body ?? [];
+      inventoryList.value = response.body ?? [];
       return;
     } else {
       Utils.showErrorToast(message: response.message);

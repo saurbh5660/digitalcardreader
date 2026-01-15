@@ -1,19 +1,21 @@
 import 'package:digital_card_grader/core/common/common_appbar.dart';
 import 'package:digital_card_grader/core/constants/app_colors.dart';
-import 'package:digital_card_grader/core/features/profile/controllers/profile_controller.dart';
 import 'package:digital_card_grader/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../profile/controllers/inventory_controller.dart';
 
-class InventoryScreen extends GetView<InventoryController> {
-  const InventoryScreen({super.key});
+class InventoryScreen extends StatelessWidget {
+  InventoryScreen({super.key});
+
+  final InventoryController controller =
+  Get.put(InventoryController()); // 👈 INITIALIZED HERE
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.white,
       appBar: commonAppBar(
         title: "",
         child: Center(
@@ -21,103 +23,140 @@ class InventoryScreen extends GetView<InventoryController> {
             "Inventory",
             style: TextStyle(
               fontSize: 28,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               fontFamily: GoogleFonts.openSans().fontFamily,
             ),
           ),
         ),
+        actions: const [
+          SizedBox(width: 60),
+        ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildSectionTitle("Limited Borders"),
-              const SizedBox(height: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 16),
+            _buildSectionTitle("Limited Borders"),
+            const SizedBox(height: 16),
 
-              /// Horizontal Limited Border List
-              SizedBox(
-                height: 150, // Adjusted height for the border asset
-                // child: Obx(() {
-                  // final borders = controller.profile.value.packBuyList ?? [];
-                  // if (borders.isEmpty) {
-                  //   return _buildEmptyState("No Limited Borders Available");
-                  // }
-                   child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 10,
+            /// Inventory Grid
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Obx(() {
+                  if (controller.inventoryList.isEmpty) {
+                    return _buildEmptyState("No inventory found");
+                  }
+
+                  return GridView.builder(
+                    itemCount: controller.inventoryList.length,
+                    gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                      childAspectRatio: 0.9,
+                    ),
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 12),
-                        child: Image.asset(
-                          Assets.imagesGoldLimitedBorder,
-                          fit: BoxFit.contain,
-                        ),
+                      return _inventoryItem(
+                        "Limited Border",
                       );
                     },
-                  )
-                // }),
+                  );
+                }),
               ),
+            ),
 
-              const SizedBox(height: 30),
-              _buildSectionTitle("My Collection"),
-           /*   const SizedBox(height: 15),
-
-              /// Simple Grid showing only the border/card image
-              Obx(() {
-                final items = controller.cardList;
-                if (items.isEmpty) {
-                  return const Center(child: Text("Collection is empty"));
-                }
-
-                return GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.72,
-                    crossAxisSpacing: 15,
-                    mainAxisSpacing: 15,
-                  ),
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    // This grid also remains focused purely on the visual asset
-                    return Image.asset(
-                      Assets.imagesGoldLimitedBorder,
-                      fit: BoxFit.fill,
-                    );
-                  },
-                );
-              }),*/
-            ],
-          ),
+            const SizedBox(height: 20),
+          ],
         ),
       ),
     );
   }
 
+  /// Section Title
   Widget _buildSectionTitle(String title) {
-    return Text(
-      title,
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w700,
-        color: AppColors.black,
-        fontFamily: GoogleFonts.openSans().fontFamily,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+          color: AppColors.black,
+          fontFamily: GoogleFonts.openSans().fontFamily,
+        ),
       ),
     );
   }
 
+  /// Inventory Card Item
+  Widget _inventoryItem(String title) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(16),
+      onTap: () {},
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.textGrey.withOpacity(0.25)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(14),
+                child: Image.asset(
+                  Assets.imagesGoldLimitedBorder,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.black,
+                  fontFamily: GoogleFonts.openSans().fontFamily,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Empty State
   Widget _buildEmptyState(String message) {
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 24),
+      height: 160,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.textGrey.withAlpha(30),
-        borderRadius: BorderRadius.circular(12),
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Center(
-        child: Text(message, style: TextStyle(color: AppColors.textGrey)),
+        child: Text(
+          message,
+          style: TextStyle(
+            color: AppColors.black,
+            fontSize: 16,
+            fontFamily: GoogleFonts.openSans().fontFamily,
+          ),
+        ),
       ),
     );
   }

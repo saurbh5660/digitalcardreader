@@ -35,7 +35,7 @@ class _PacksScreenState extends State<PacksScreen> {
     PackModel(
       title: "Gold Pack",
       credits: 100,
-      chance: "Guaranteed limited border\n+ 5% chance of another frame",
+      chance: "Guaranteed limited border.",
       price: 50,
     ),
   ];

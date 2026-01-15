@@ -53,7 +53,7 @@ class ListYourCardController extends GetxController {
       data["collectionId"] = selectedCollectionId.value;
 
     }
-    var response = await ApiProvider().getCardListWithId(data);
+    var response = await ApiProvider().getCardListWithId(data,false);
     Logger().d(response);
     if (response.success == true) {
       cardList.value = response.body ?? [];
