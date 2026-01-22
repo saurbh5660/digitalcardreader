@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 
 import 'core/common/db_helper.dart';
 import 'core/constants/app_routes.dart';
+import 'notification/notification_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,21 +23,14 @@ class _SplashScreenState extends State<SplashScreen> {
       final isLoggedIn = DbHelper().getIsLoggedIn();
 
       Logger().d(isLoggedIn);
-      // If not logged in, go to onboarding
       if (!isLoggedIn) {
         Get.offAllNamed(AppRoutes.onboarding);
         return;
       }
-/*
-      final routeData = await NotificationService().getPushNotificationRoute();
-      if (routeData case (String routeName, Object? arguments)) {
-        Get.offAllNamed(routeName, arguments: arguments);
-        return;
-      }*/
-
-      // 2. Default route (dashboard)
-      Get.offAllNamed(AppRoutes.dashboard);
-
+      bool handled = await NotificationService().checkInitialMessage();
+      if (!handled) {
+        Get.offAllNamed(AppRoutes.dashboard);
+      }
     });
   }
 

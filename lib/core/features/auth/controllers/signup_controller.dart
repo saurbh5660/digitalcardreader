@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:digital_card_grader/core/constants/app_strings.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -54,17 +55,13 @@ class SignupController extends GetxController {
   }
 
   Future<void> signupApi() async {
-    String token = "";
-    if (deviceToken.isEmpty) {
-      token = "dddd";
-    } else {
-      token = deviceToken;
-    }
+    String deviceToken = await FirebaseMessaging.instance.getToken() ?? "";
+
     Map<String, dynamic> userData = {
       "name": nameController.text.trim(),
       "email": emailController.text.trim(),
       "password": passwordController.text.trim(),
-      "deviceToken": token,
+      "deviceToken": deviceToken,
       "deviceType": Platform.isAndroid ? "1" : "2",
     };
 
