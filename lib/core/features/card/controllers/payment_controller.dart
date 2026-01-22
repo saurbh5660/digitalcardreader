@@ -23,8 +23,8 @@ class PaymentController extends GetxController {
   final saveDetail = RxBool(false);
 
   Future<void> scanCard() async {
-    final file = await CardScannerUtils.scanFromCamera();
-    image.value = file?.path;
+    // final file = await CardScannerUtils.scanFromCamera();
+    // image.value = file?.path;
    /* if (file?.path != null) {
       uploadGrade();
     }*/

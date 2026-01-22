@@ -131,7 +131,9 @@ class ContactScreen extends GetView<ContactController> {
                       fontFamily: GoogleFonts.poppins().fontFamily,
                     ),
                     borderRadius: BorderRadius.circular(10),
-                    onPressed: controller.contactUsValidation(),
+                    onPressed: () async{
+                      controller.contactUsValidation();
+                    },
                   ),
                 ],
               ),

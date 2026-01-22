@@ -1,47 +1,37 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_doc_scanner/flutter_doc_scanner.dart';
+import 'package:google_mlkit_document_scanner/google_mlkit_document_scanner.dart';
 import 'package:logger/logger.dart';
 
 class CardScannerUtils {
   const CardScannerUtils._();
+
   static Future<File?> scanFromCamera() async {
     try {
-      final result = await FlutterDocScanner().getScannedDocumentAsImages(page: 1);
-      Logger().d("Raw scan result: $result");
+      Logger().d("GDSGDSgsgsdgsd");
+      // 1. Configure Options
+      final options = DocumentScannerOptions(
+        documentFormat: DocumentFormat.jpeg,
+        // ScannerMode.filter is the "Full" mode that defaults to Manual Review
+        mode: ScannerMode.full,
+        isGalleryImport: true,
+        pageLimit: 1,
+      );
 
-      if (result != null && result is Map) {
-        final pages = result['Uri'];
-        Logger().d("Pages: $pages");
-        Logger().d("Pages type: ${pages.runtimeType}");
+      final documentScanner = DocumentScanner(options: options);
 
-        if (pages != null) {
-          // Since pages is a String, we need to parse it
-          String pagesString = pages.toString();
-          Logger().d("Pages string: $pagesString");
+      // 2. Start Scan
+      final result = await documentScanner.scanDocument();
 
-          // Extract the file path from the string
-          final filePath = _extractFilePathFromPagesString(pagesString);
-
-          if (filePath != null) {
-            Logger().d("Extracted file path: $filePath");
-
-            final file = File(filePath);
-            if (await file.exists()) {
-              Logger().d("File exists and is ready to use");
-              return file;
-            } else {
-              Logger().d("File does not exist at path: $filePath");
-            }
-          } else {
-            Logger().d("Could not extract file path from pages string");
-          }
-        }
+      // 3. Extract the file path (No regex needed!)
+      if (result.images.isNotEmpty) {
+        final String path = result.images.first;
+        return File(path);
       }
-
       return null;
     } catch (e) {
-      debugPrint("Error scanning document: $e");
+      debugPrint("Error: $e");
       return null;
     }
   }

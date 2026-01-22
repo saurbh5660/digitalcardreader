@@ -127,8 +127,6 @@ class SettingController extends GetxController {
     }
   }
 
-
-
   Future<void> deleteAccount() async {
     var response = await ApiProvider().deleteAccount();
     if (response.success == true) {

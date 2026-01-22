@@ -181,7 +181,9 @@ class ChangePasswordScreen extends GetView<ChangePasswordController> {
                       fontFamily: GoogleFonts.poppins().fontFamily,
                     ),
                     borderRadius: BorderRadius.circular(10),
-                    onPressed: controller.validationAddFeed(),
+                    onPressed: () async{
+                      controller.validationAddFeed();
+                    },
                   ),
                 ],
               ),
